@@ -1,6 +1,9 @@
 # LMT-FORMATION
 ## La documentation d'installation du projet en mode développeur
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Custromix/lmt-formation-crud/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Custromix/lmt-formation-crud/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/Custromix/lmt-formation-crud/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Custromix/lmt-formation-crud/build-status/master)
+
 ## Installation
 
 Sur votre serveur web installer la version 7.3 de [php](https://windows.php.net/download/) et prenez n'importe quelle version de [composer](https://getcomposer.org/download/).
