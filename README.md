@@ -1,8 +1,6 @@
 # LMT-FORMATION
 ## La documentation d'installation du projet en mode développeur
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
 ## Installation
 
 Sur votre serveur web installer la version 7.3 de [php](https://windows.php.net/download/) et prenez n'importe quelle version de [composer](https://getcomposer.org/download/).
