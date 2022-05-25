@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TrainingRequest{% endblock %}
+
+{% block body %}
+    <h1>TrainingRequest</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ training_request.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ training_request.name }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ training_request.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Mail</th>
+                <td>{{ training_request.mail }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ training_request.phone }}</td>
+            </tr>
+            <tr>
+                <th>DateRequest</th>
+                <td>{{ training_request.dateRequest ? training_request.dateRequest|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ training_request.note }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ training_request.status }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('training_request_index') }}">back to list</a>
+
+    <a href="{{ path('training_request_edit', {'id': training_request.id}) }}">edit</a>
+
+    {{ include('training_request/_delete_form.html.twig') }}
+{% endblock %}
