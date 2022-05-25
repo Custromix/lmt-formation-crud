@@ -1,0 +1,242 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Session{% endblock %}
+
+{% block body %}
+    <h1>Session n°...</h1>
+    <div>
+        <div class="card">
+            <div class="card-header">
+                Session
+            </div>
+            <div class="card-body">
+                <form action="" method="post">
+                    <div class="row justify-content-around">
+                        <div class="col-11">
+                            <label>Client</label>
+                            <select name="customer[0]" id="" class="form-control">
+                                {% for customer in session.getCustomer %}
+                                    <option value="{{ customer.getId }}" hidden>{{ customer }}</option>
+                                {% endfor %}
+                                {% for customer in customers %}
+                                    <option value="{{ customer.id }}">{{ customer.name }} {{ customer.firstname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="saut row justify-content-around">
+                        <div class="col-11">
+                            <label>Lieu de la formation</label>
+                            <input type="text" class="form-control" name="session[place]"
+                                   placeholder="Lieu de formation" value="{{ session.getPlace }}" required>
+                        </div>
+                    </div>
+                    <div class="row justify-content-around" id="dates">
+                        {% set count = 0 %}
+                        {% for aDate in session.getSessionDate %}
+                            <div class="col-5" id="date_{{ count }}">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <label>Date de session</label>
+                                        <input type="date" class="form-control" name="dateSession[{{ count }}][date]"
+                                               value="{{ aDate.getDateFormation }}">
+                                        <input type="hidden" name="dateSession[{{ count }}][status]" value="edit">
+                                        <input type="hidden" name="dateSession[{{ count }}][id]" value="{{ aDate.id }}">
+                                    </div>
+                                    <div class="col-2" style="margin-top: 6%;">
+                                        <a href="#" class="btn btn-danger" onclick="deleteDate({{ count }})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
+                                                 height="24">
+                                                <path fill-rule="evenodd"
+                                                      d="M16 1.75V3h5.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75zm-6.5 0a.25.25 0 01.25-.25h4.5a.25.25 0 01.25.25V3h-5V1.75z"></path>
+                                                <path d="M4.997 6.178a.75.75 0 10-1.493.144L4.916 20.92a1.75 1.75 0 001.742 1.58h10.684a1.75 1.75 0 001.742-1.581l1.413-14.597a.75.75 0 00-1.494-.144l-1.412 14.596a.25.25 0 01-.249.226H6.658a.25.25 0 01-.249-.226L4.997 6.178z"></path>
+                                                <path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% set count = count + 1 %}
+                        {% endfor %}
+                        <div style="padding-top: 3%" class="col-5" id="btn-more">
+                            <a href="#" class="btn btn-primary" id="btn-more-date">+</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-around" id="typeFinancingRow">
+                        <div class="col-5">
+                            <label>Toutes les formations</label>
+                            <select name="session[training]" class="form-control">
+                                <option value="{{ session.getStandardTraining ? session.getStandardTraining.getId :null }}" hidden>{{ session.getStandardTraining ? session.getStandardTraining.getNom :"Nom de la formation" }}</option>
+                                {% for standardTraining in trainings %}
+                                    <option value="{{ standardTraining.id }}">{{ standardTraining }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% set count = 0 %}
+                        {% for bePaid in session.getBepaids %}
+                        <div class="col-2" id="TypeFinancing_{{ count }}" onclick="deleteFincaningType(this)">
+                            <label>Type de financement</label>
+                            <select style="padding-left: 5px; padding-right: 0" name="financingType[{{ count }}][id]" class="form-control" required>
+                                <option value="{{ bePaid.getFinancingType.getId }}" hidden>{{ bePaid.getFinancingType }}</option>
+                                {% for financingType in financingTypes %}
+                                    <option value="{{ financingType.id }}">{{ financingType.name }}</option>
+                                {% endfor %}
+                                <option value="delete" class="bg-danger text-light">Supprimer</option>
+                            </select>
+                            <input type="hidden" name="financingType[{{ count }}][oldFinancingTypeId]" value="{{ bePaid.getFinancingType.getId }}">
+                            <input type="hidden" name="financingType[{{ count }}][status]" value="edit">
+                        </div>
+                            {% set count = count + 1 %}
+                        {% endfor %}
+                        <div class="col-2" id="div-more-financingType">
+                            <a href="#" id="btn-more-financingType" class="btn btn-primary">+</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-around">
+                        <div class="col-5">
+                            <label>Prix du devis</label>
+                            <input type="number" class="form-control" name="session[price]" value="{{ session.getEstimatePrice }}">
+                        </div>
+                        <div class="col-5">
+                            <label>Nombre de stagiaire</label>
+                            <input type="number" class="form-control" name="session[trainee]" value="{{ session.getNbTrainee }}">
+                        </div>
+                    </div>
+                    <div class="row justify-content-around">
+                        <div class="col-5">
+                            <label>Statut de la session</label>
+                            <select name="session[status]" id="" class="form-control">
+                                <option value="{{ session.getStatus ? session.getStatus.getId : null }}" hidden>{{ session.getStatus ? session.getStatus.getName : "Status de la session" }}</option>
+                                {% for aStatus in status %}
+                                    <option value="{{ aStatus.id }}">{{ aStatus.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <label>Nom du formateur</label>
+                            <select name="session[trainer]" id="" class="form-control">
+                                <option value="{{ session.getTrainer ? session.getTrainer.getId : null }}" hidden>{{ session.getTrainer ?: "Nom du formateur" }}</option>
+                                {% for formateur in formateurs %}
+                                    <option value="{{ formateur.id }}">{{ formateur.name }} {{ formateur.firstname }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row justify-content-around">
+                        <div class="col-11">
+                            <label>Notes</label>
+                            <textarea name="session[note]" id="" cols="30" rows="10" class="form-control">
+                                {{ session.getNote }}
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-1">
+                            <input type="submit" class="btn btn-primary" value="Valider">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('session_index') }}">back to list</a>
+{% endblock %}
+
+{% block endjavascripts %}
+    <script>
+        document.getElementById('btn-more-date').addEventListener('click', function () {
+            clone = document.getElementById("date_0").cloneNode(true);
+            allDates = document.querySelectorAll(`[id^="date_"]`);
+            nbrDate = allDates.length;
+            clone.id = 'date_' + nbrDate;
+            let dates = document.getElementById("dates");
+            const inputClone = clone.getElementsByTagName('input');
+            console.log(inputClone[0]);
+            console.log(0);
+            console.log(inputClone[1]);
+            console.log(1);
+            inputClone[0].setAttribute('name', inputClone[0].getAttribute('name').replace('[0]', '[' + nbrDate + ']'));
+            inputClone[1].setAttribute('name', inputClone[1].getAttribute('name').replace('[0]', '[' + nbrDate + ']'));
+            inputClone[1].value = "new";
+            inputClone[2].remove();
+            if (nbrDate > 1) {
+                clone.setAttribute('style', 'margin-top: 2%');
+            }
+            dates.insertBefore(clone, document.getElementById('btn-more'));
+        })
+    </script>
+    <script>
+        function deleteDate(id) {
+            let date = document.getElementById("date_" + id);
+            console.log(date);
+            date.getElementsByTagName("input")[1].value = "delete";
+            date.classList.add("disapear");
+        }
+    </script>
+    <script>
+        if (document.querySelectorAll(`[id^="TypeFinancing_"]`).length > 1){
+            document.getElementById("div-more-financingType").classList.add("hidden");
+        }
+    </script>
+    <script>
+        document.getElementById('btn-more-financingType').addEventListener('click', function () {
+            let fDiv = document.querySelectorAll(`[id^="TypeFinancing_"]`)[0]
+            let clone = fDiv.cloneNode(true);
+            if (fDiv.id === "TypeFinancing_0"){
+                clone.id = "TypeFinancing_1";
+            }else{
+                clone.id = "TypeFinancing_0";
+            }
+            let rowTypeFinancing = document.getElementById("typeFinancingRow");
+            let divMore = document.getElementById("div-more-financingType");
+            let inputs = clone.getElementsByTagName("input");
+            let selectType = clone.getElementsByTagName("select")[0];
+            if (fDiv.getElementsByTagName("select")[0].getAttribute("name") === "financingType[0][id]"){
+                selectType.setAttribute("name", selectType.getAttribute("name").replace("[0]", "[1]"));
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].setAttribute("name", inputs[i].getAttribute("name").replace("[0]", "[1]"));
+                }
+            }else{
+                selectType.setAttribute("name", selectType.getAttribute("name").replace("[1]", "[0]"));
+                for (let i = 0; i < inputs.length; i++) {
+                    inputs[i].setAttribute("name", inputs[i].getAttribute("name").replace("[1]", "[0]"));
+                }
+            }
+            inputs[0].value = null;
+            inputs[1].value = "new";
+            rowTypeFinancing.insertBefore(clone, divMore);
+            divMore.classList.add("hidden");
+        });
+    </script>
+    <script>
+        function deleteFincaningType(div){
+            let selectFincaningType = div.getElementsByTagName("select")[0];
+            let divMore = document.getElementById("div-more-financingType");
+
+            if (document.querySelectorAll(`[id^="TypeFinancing_"]`).length !== 1){
+                if (selectFincaningType.options[selectFincaningType.length - 1].value !== "delete"){
+                    let optionSuppr = document.createElement('option');
+                    optionSuppr.value = "delete";
+                    optionSuppr.innerText = "Supprimer";
+                    optionSuppr.setAttribute("class", "bg-danger text-light");
+                    selectFincaningType.options.add(optionSuppr);
+                }
+                if (selectFincaningType.options[selectFincaningType.selectedIndex].value === "delete"){
+                    div.classList.add("hidden");
+                    div.setAttribute("id", "");
+                    div.getElementsByTagName("input")[1].value = "delete";
+                    console.log(divMore);
+                    if (divMore.classList.contains("hidden")){
+                        divMore.classList.remove("hidden");
+                    }
+                }
+            }else{
+                if (selectFincaningType.options[selectFincaningType.length - 1].value === "delete"){
+                    selectFincaningType.options[selectFincaningType.length - 1].remove();
+                }
+            }
+
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,14 @@
+
+.hidden{
+    display: none;
+}
+
+.disapear{
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.row{
+    margin-top: 2%;
+}

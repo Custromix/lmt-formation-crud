@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau statut{% endblock %}
+
+{% block titlePage %}Créer un nouveau statut{% endblock %}
+
+{% block body %}
+<div style="margin-top: 15%" class="container">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Nouveau Statut</h6>
+        </div>
+        <div class="card-body">
+            {{ include('status/_form.html.twig') }}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Customer{% endblock %}
+
+{#{% block body %}
+    <h1>Edit Customer</h1>
+
+    {{ include('customer/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('customer_index') }}">back to list</a>
+
+    {{ include('customer/_delete_form.html.twig') }}
+{% endblock %}#}
+
+{% block body %}
+
+    <style>
+        .row {
+            margin-top: 3%;
+        }
+    </style>
+
+    <form action="/customer/{{ customer.getId }}/edit" method="post">
+        <div class="form-main row justify-content-center">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header">
+                        Nouveau Client
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label>Nom</label>
+                                <input type="text" class="form-control" name="customer[name]" value="{{ customer.getName }}">
+                            </div>
+                            <div class="col-5">
+                                <label>Firstname</label>
+                                <input type="text" class="form-control" name="customer[firstname]" value="{{ customer.getFirstname }}">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-10">
+                                <label>Adresse</label>
+                                <input type="text" class="form-control" name="customer[address]" value="{{ customer.getAddress }}">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label>Ville</label>
+                                <input type="text" class="form-control" name="customer[city]" value="{{ customer.getCity }}">
+                            </div>
+                            <div class="col-5">
+                                <label>Code postal</label>
+                                <input type="number" class="form-control" name="customer[postal]" value="{{ customer.getPostal }}">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label>Famille</label>
+                                <select class="form-control" name="customer[companyType]">
+                                    <option hidden value="{{ customer.getCompanyType.id }}">{{ customer.getCompanyType }}</option>
+                                    {% for companyType in companyTypes %}
+                                        <option value="{{ companyType.id }}">{{ companyType.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <label>Site internet</label>
+                                <input type="text" class="form-control" name="customer[website]" value="{{ customer.Website }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="contact">
+            {% set count = 0 %}
+            {% for contact in customer.getContacts %}
+                <div class="col-6" id="contact_{{ count }}">
+                    <input type="hidden" class="id_{{ count }}" name="form[{{ count }}][id]" value="{{ contact.getId }}">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row justify-content-between">
+                                <div class="col-3">
+                                    {{ contact }}
+                                </div>
+                                <div class="col-2">
+                                    <a href="#" onclick="deleteContact({{ count }})" class="btn btn-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill-rule="evenodd" d="M16 1.75V3h5.25a.75.75 0 010 1.5H2.75a.75.75 0 010-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75zm-6.5 0a.25.25 0 01.25-.25h4.5a.25.25 0 01.25.25V3h-5V1.75z"></path><path d="M4.997 6.178a.75.75 0 10-1.493.144L4.916 20.92a1.75 1.75 0 001.742 1.58h10.684a1.75 1.75 0 001.742-1.581l1.413-14.597a.75.75 0 00-1.494-.144l-1.412 14.596a.25.25 0 01-.249.226H6.658a.25.25 0 01-.249-.226L4.997 6.178z"></path><path d="M9.206 7.501a.75.75 0 01.793.705l.5 8.5A.75.75 0 119 16.794l-.5-8.5a.75.75 0 01.705-.793zm6.293.793A.75.75 0 1014 8.206l-.5 8.5a.75.75 0 001.498.088l.5-8.5z"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="col-3">
+                                    <label for>Civilité</label>
+                                    <select name="form[{{ count }}][civility]" class="form-control">
+                                        <option value="{{ contact.getCivility }}" selected hidden>{{ contact.getCivility }}</option>
+                                        <option value="Mme">Mme</option>
+                                        <option value="M">M</option>
+                                    </select>
+                                </div>
+                                <div class="col-7">
+                                    <label for="">Nom</label>
+                                    <select class="form-control" name="form[{{ count }}][contactType]">
+                                        <option value="{{ contact.getContactType.getId }}">{{ contact.getContactType }}</option>
+                                        {% for contactType in contactTypes %}
+                                            <option value="{{ contactType.id }}">{{ contactType.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-5">
+                                    <label for="">Nom</label>
+                                    <input type="text" name="form[{{ count }}][name]" class="form-control" placeholder="Nom" value="{{ contact.getName }}">
+                                </div>
+                                <div class="col-5">
+                                    <label>Prénom</label>
+                                    <input type="text" name="form[{{ count }}][firstname]" class="form-control" placeholder="Prénom" value="{{ contact.getFirstname }}">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-10">
+                                    <label>Mail</label>
+                                    <input type="email" name="form[{{ count }}][mail]" class="form-control" placeholder="Email" value="{{ contact.getMail }}">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-5">
+                                    <label>Téléphone mobile</label>
+                                    <input type="phone" name="form[{{ count }}][mobile]" class="form-control" placeholder="Téléphone mobile" value="{{ contact.getMobilePhone }}">
+                                </div>
+                                <div class="col-5">
+                                    <label>Téléphone fixe</label>
+                                    <input type="phone" name="form[{{ count }}][fixe]" class="form-control" placeholder="Téléphone fixe" value="{{ contact.getLandLinePhone }}">
+                                </div>
+                            </div>
+                            <input type="hidden" class="status" name="form[{{ count }}][status]" value="edit">
+                        </div>
+                    </div>
+                </div>
+                {% set count = count + 1 %}
+            {% endfor %}
+            <div class="col-6" id="btnMore">
+                <a class="btn btn-info" id="btn-more-contact">+</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <button class="btn btn-primary">Save</button>
+        </div>
+
+    </form>
+
+    <a href="{{ path('customer_index') }}">back to list</a>
+{% endblock %}
+
+
+
+{% block endjavascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+
+        var nbrContact = 0;
+
+        document.getElementById('btn-more-contact').addEventListener('click', function () {
+            contacts = document.querySelectorAll(`[id^="contact_"]`);
+            nbrContact = contacts.length;
+            clone = contacts[0].cloneNode(true);
+            console.log(contacts)
+            clone.id = 'contact_' + nbrContact;
+            clone.getElementsByClassName('status')[0].value = "new";
+            var inputDelete = clone.getElementsByTagName("input")[0];
+            inputDelete.remove();
+            let contact = document.getElementById("contact");
+            const inputClone = clone.getElementsByTagName('input');
+            const selectClone = clone.getElementsByTagName('select');
+            for (let i = 0; i < inputClone.length; i++) {
+                inputClone[i].setAttribute('name', inputClone[i].getAttribute('name').replace('[0]', '[' + nbrContact + ']'));
+                inputClone[i].setAttribute('name', inputClone[i].getAttribute('name').replace('[0]', '[' + nbrContact + ']'));
+            }
+            for (let i = 0; i < selectClone.length; i++) {
+                selectClone[i].setAttribute('name', selectClone[i].getAttribute('name').replace('[0]', '[' + nbrContact + ']'));
+                selectClone[i].setAttribute('name', selectClone[i].getAttribute('name').replace('[0]', '[' + nbrContact + ']'));
+            }
+            if (nbrContact > 1) {
+                clone.setAttribute('style', 'margin-top: 2%');
+            }
+            clone.classList.remove('hidden');
+            contact.insertBefore(clone, document.getElementById('btnMore'));
+        })
+
+        function deleteContact(id) {
+            contact = document.getElementById('contact_' + id);
+            contact.getElementsByClassName('status')[0].value = "delete";
+            contact.classList.add('hidden');
+        }
+
+    </script>
+{% endblock %}

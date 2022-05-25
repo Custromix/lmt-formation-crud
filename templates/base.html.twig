@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Site de gestion de l'entreprise LMT-FORMATION">
+        <meta name="author" content="SABI Abdelkader">
+
+        <title>{% block title %}{% endblock %}</title>
+
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+
+        <!-- Custom fonts for this template-->
+        <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+        <!-- Custom styles for this template-->
+        <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/customLmt.css') }}" rel="stylesheet">
+
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -13,7 +28,218 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">LMT Formation</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-home"></i>
+                    <span>Accueil</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Statistiques</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Administration
+            </div>
+
+            <!-- CLIENT -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseClient"
+                   aria-expanded="true" aria-controls="collapseClient">
+                    <i class="fas fa-user-friends"></i>
+                    <span>Client</span>
+                </a>
+                <div id="collapseClient" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Gestion de sessions :</h6>
+                        <a class="collapse-item" href="/customer/new">Ajouter un client</a>
+                        <a class="collapse-item" href="/customer/">Lister les clients</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- SESSION -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-chalkboard"></i>
+                    <span>Session</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Gestion de sessions :</h6>
+                        <a class="collapse-item" href="/session/new">Ajouter une session</a>
+                        <a class="collapse-item" href="/session/">Lister les sessions</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- FORMATEUR -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFormateur"
+                   aria-expanded="true" aria-controls="collapseFormateur">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Formateur</span>
+                </a>
+                <div id="collapseFormateur" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Gestion de formateurs :</h6>
+                        <a class="collapse-item" href="buttons.html">Ajouter un formateur</a>
+                        <a class="collapse-item" href="cards.html">Lister les formateurs</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- DEMANDE DE FORMATION -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFormationRequest"
+                   aria-expanded="true" aria-controls="collapseFormationRequest">
+                    <i class="fas fa-question"></i>
+                    <span>Demande de formation</span>
+                </a>
+                <div id="collapseFormationRequest" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Gestion de demande :</h6>
+                        <a class="collapse-item" href="/training">Ajouter une demande</a>
+                        <a class="collapse-item" href="cards.html">Lister les demandes</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Autre
+            </div>
+
+            <!-- FORMATION -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFormation"
+                   aria-expanded="true" aria-controls="collapseFormation">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Formation</span>
+                </a>
+                <div id="collapseFormation" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Gestion de formation :</h6>
+                        <a class="collapse-item" href="buttons.html">Ajouter une formation</a>
+                        <a class="collapse-item" href="cards.html">Lister les formations</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- OTHER -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOther"
+                   aria-expanded="true" aria-controls="collapseOther">
+                    <i class="fas fa-random"></i>
+                    <span>Autre</span>
+                </a>
+                <div id="collapseOther" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Autre type de gestion :</h6>
+                        <a class="collapse-item" href="/companytype/new">Ajouter une famille</a>
+                        <a class="collapse-item" href="/status/new">Ajouter un statut de session</a>
+                    </div>
+                </div>
+            </li>
+
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <h1>{% block titlePage %}{% endblock %}</h1>
+
+                </nav>
+
+                <!-- Content -->
+                <div class="container-fluid">
+                    {% block body %}{% endblock %}
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; LMT-Formation 2021</span>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    {% block endjavascripts %}{% endblock %}
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
     </body>
 </html>

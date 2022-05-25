@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Customer{% endblock %}
+{% block titlePage %}Create new Customer{% endblock %}
+
+{% block body %}
+
+    <style>
+        .row {
+            margin-top: 3%;
+        }
+    </style>
+
+    <form action="/customer/new" method="post">
+        <div class="form-main row justify-content-center">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header">
+                        Nouveau Client
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label>Nom</label>
+                                <input type="text" class="form-control" name="customer[name]">
+                            </div>
+                            <div class="col-5">
+                                <label>Firstname</label>
+                                <input type="text" class="form-control" name="customer[firstname]">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-10">
+                                <label>Adresse</label>
+                                <input type="text" class="form-control" name="customer[address]">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label>Ville</label>
+                                <input type="text" class="form-control" name="customer[city]">
+                            </div>
+                            <div class="col-5">
+                                <label>Code postal</label>
+                                <input type="number" class="form-control" name="customer[postal]">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label>Famille</label>
+                                <select class="form-control" name="customer[companyType]">
+                                    {% for companyType in companyTypes %}
+                                        <option value="{{ companyType.id }}">{{ companyType.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <label>Site internet</label>
+                                <input type="url" class="form-control" name="customer[website]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="contact">
+            <div class="col-6" id="contact_0">
+                <div class="card">
+                    <div class="card-header">
+                        Nouveau contact
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-top: 0" class="row justify-content-center">
+                            <div class="col-3">
+                                <label for>Civilité</label>
+                                <select name="form[0][civility]" class="form-control" id="">
+                                    <option value="" selected hidden>Civilité</option>
+                                    <option value="Mme">Mme</option>
+                                    <option value="M">M</option>
+                                </select>
+                            </div>
+                            <div class="col-7">
+                                <label for="">Nom</label>
+                                <select class="form-control" name="form[0][contactType]">
+                                    {% for contactType in contactTypes %}
+                                        <option value="{{ contactType.id }}">{{ contactType.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label for="">Nom</label>
+                                <input type="text" name="form[0][name]" class="form-control" placeholder="Nom">
+                            </div>
+                            <div class="col-5">
+                                <label>Prénom</label>
+                                <input type="text" name="form[0][firstname]" class="form-control" placeholder="Prénom">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-10">
+                                <label>Mail</label>
+                                <input type="email" name="form[0][mail]" class="form-control" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <label>Téléphone mobile</label>
+                                <input type="phone" name="form[0][mobile]" class="form-control" placeholder="Téléphone mobile">
+                            </div>
+                            <div class="col-5">
+                                <label>Téléphone fixe</label>
+                                <input type="phone" name="form[0][fixe]" class="form-control" placeholder="Téléphone fixe">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6" id="btnMore">
+                <a class="btn btn-info" id="btn-more-contact">+</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <button class="btn btn-primary">Save</button>
+        </div>
+
+    </form>
+
+    <a href="{{ path('customer_index') }}">back to list</a>
+{% endblock %}
+
+{% block endjavascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+
+        var nbrContact = 0;
+
+        document.getElementById('btn-more-contact').addEventListener('click', function () {
+            clone = document.getElementById("contact_0").cloneNode(true);
+            nbrContact++;
+            clone.id = 'contact_' + nbrContact;
+            let contact = document.getElementById("contact");
+            const inputClone = clone.getElementsByTagName('input');
+            const selectClone = clone.getElementsByTagName('select');
+            for (let i = 0; i < inputClone.length; i++) {
+                inputClone[i].setAttribute('name', inputClone[i].getAttribute('name').replace('[0]', '[' + nbrContact + ']'));
+            }
+            for (let i = 0; i < selectClone.length; i++) {
+                selectClone[i].setAttribute('name', selectClone[i].getAttribute('name').replace('[0]', '[' + nbrContact + ']'));
+            }
+            if (nbrContact > 1) {
+                clone.setAttribute('style', 'margin-top: 2%');
+            }
+            contact.insertBefore(clone, document.getElementById('btnMore'));
+        })
+
+    </script>
+{% endblock %}

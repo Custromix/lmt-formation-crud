@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToDoList index{% endblock %}
+
+{% block body %}
+    <h1>ToDoList index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Contract</th>
+                <th>Agreement</th>
+                <th>Convocation</th>
+                <th>TrainerFolder</th>
+                <th>Certificate</th>
+                <th>EmpowermentTitle</th>
+                <th>Invoice</th>
+                <th>Survey</th>
+                <th>Settlement</th>
+                <th>SignInSheet</th>
+                <th>FrontPage</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for to_do_list in to_do_lists %}
+            <tr>
+                <td>{{ to_do_list.id }}</td>
+                <td>{{ to_do_list.Contract }}</td>
+                <td>{{ to_do_list.agreement }}</td>
+                <td>{{ to_do_list.convocation }}</td>
+                <td>{{ to_do_list.trainerFolder }}</td>
+                <td>{{ to_do_list.certificate }}</td>
+                <td>{{ to_do_list.empowermentTitle }}</td>
+                <td>{{ to_do_list.invoice }}</td>
+                <td>{{ to_do_list.survey }}</td>
+                <td>{{ to_do_list.settlement }}</td>
+                <td>{{ to_do_list.signInSheet }}</td>
+                <td>{{ to_do_list.frontPage }}</td>
+                <td>
+                    <a href="{{ path('to_do_list_show', {'id': to_do_list.id}) }}">show</a>
+                    <a href="{{ path('to_do_list_edit', {'id': to_do_list.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('to_do_list_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ToDoList{% endblock %}
+
+{% block body %}
+    <h1>Create new ToDoList</h1>
+
+
+
+
+
+
+
+    <div style="margin-top: 2%; margin-bottom: 2%;" class="card mb-4">
+        <div class="card-header bg-light">
+            <i class="fas fa-table me-1"></i>
+            Tâche à faire
+        </div>
+        <div class="card-body">
+            {#<form action="../../model/session/update_check_up.php?id_session=<?=$id_session ?>" method="post">
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <label>
+                            <input name="<?= $C ?>" type="hidden" value="">
+                            <input name="<?= $C ?>" type="checkbox" value="checked" class="option-input radio">
+                            <span class="label-text"><?= $key ?></span>
+                        </label>
+                        <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="./../publipostage/session_word.php?id_session=<?= $id_session;?>&amp;doc=<?= $key; ?>&flag=0">
+                            <i class="fas fa-download"></i>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="materielListe.php?id_session=<?=$id_session ?>" class="btn" style="color: green;">Liste des matériels</a>
+                    </div>
+                </div>
+                <div style="margin-top: 2%;" class="row justify-content-center">
+                    <div class="col-2">
+                        <input type="submit" name="button" class="btn btn-primary btn-block" value="Confirmer">
+                    </div>
+                </div>
+            </form>#}
+            {{ include('to_do_list/_form.html.twig') }}
+        </div>
+    </div>
+    <div><a href="{{ path('to_do_list_index') }}">Retour aux sessions</a></div>
+
+{% endblock %}

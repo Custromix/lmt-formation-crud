@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New StandardTraining{% endblock %}
+
+{% block body %}
+    <h1>Create new StandardTraining</h1>
+
+    {{ include('standard_training/_form.html.twig') }}
+
+    <a href="{{ path('standard_training_index') }}">back to list</a>
+{% endblock %}
