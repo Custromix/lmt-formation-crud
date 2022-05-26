@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Edit Session{% endblock %}
+{% block titlePage %}Modifiaction de la session n°{{ session.getId }}{% endblock %}
 
 {% block body %}
-    <h1>Session n°...</h1>
     <div>
         <div class="card">
             <div class="card-header">
-                Session
+                Session n°<strong>{{ session.getId }}</strong> du/des client(s)
+                {% for customer in session.getCustomer %}
+                    <strong>{{ customer }}</strong>
+                {% endfor %}
             </div>
             <div class="card-body">
-                <form action="" method="post">
+                <form action="/session/{{ session.getId }}/edit" method="post">
                     <div class="row justify-content-around">
                         <div class="col-11">
                             <label>Client</label>
@@ -236,7 +239,6 @@
                     selectFincaningType.options[selectFincaningType.length - 1].remove();
                 }
             }
-
         }
     </script>
 {% endblock %}

@@ -1,6 +1,19 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <div class="row justify-content-center">
+    <div class="row justify-content-around">
+        {{ (form_row(form.name)) }}
+        {{ (form_row(form.firstname)) }}
+    </div>
+    <div class="row justify-content-around">
+        {{ (form_row(form.trigram)) }}
+    </div>
+    <div class="row justify-content-around">
+        {{ (form_row(form.skill)) }}
+    </div>
+    <div class="row justify-content-around">
+        {{ (form_row(form.salary)) }}
+        {{ (form_row(form.urssaf)) }}
+    </div>
+    <div style="margin-top: 3%" class="row justify-content-center">
         <button class="btn btn-primary btn-block col-2">Confirmer</button>
     </div>
 {{ form_end(form) }}

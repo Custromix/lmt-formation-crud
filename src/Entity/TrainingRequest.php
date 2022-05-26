@@ -6,6 +6,7 @@ use App\Repository\TrainingRequestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Array_;
 
 /**
  * @ORM\Entity(repositoryClass=TrainingRequestRepository::class)
@@ -75,6 +76,20 @@ class TrainingRequest
         $this->customizeTrainings = new ArrayCollection();
     }
 
+    public function init(array $trainingRequestForm)
+    {
+        $customer = new Customer();
+        $customer->setId(intval($trainingRequestForm['customer']));
+
+        $this->name = $trainingRequestForm['name'];
+        $this->firstname = $trainingRequestForm['firstname'];
+        $this->mail = $trainingRequestForm['mail'];
+        $this->phone = $trainingRequestForm['phone'];
+        $this->setCustomer($customer);
+        $this->setDateRequest($trainingRequestForm['dateTraining']);
+        $this->note = $trainingRequestForm['note'];
+    }
+
     public function __toString()
     {
         // TODO: Implement __toString() method.
@@ -84,6 +99,16 @@ class TrainingRequest
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -134,15 +159,14 @@ class TrainingRequest
         return $this;
     }
 
-    public function getDateRequest(): ?\DateTimeInterface
+    public function getDateRequest(): ?string
     {
-        return $this->dateRequest;
+        return $this->dateRequest->format("Y-m-d");
     }
 
-    public function setDateRequest(\DateTimeInterface $dateRequest): self
+    public function setDateRequest(string $dateRequest): self
     {
-        $this->dateRequest = $dateRequest;
-
+        $this->dateRequest = new \DateTime($dateRequest);
         return $this;
     }
 

@@ -50,7 +50,7 @@ class CustomerController extends AbstractController
                 }
             }
             $entityManager->getRepository(Customer::class)->addCustomerAndContact($customer);
-            return $this->index($entityManager->getRepository(Customer::class));
+            return $this->redirectToRoute('customer_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('customer/new.html.twig', [
@@ -72,9 +72,11 @@ class CustomerController extends AbstractController
     /**
      * @Route("/{id}/edit", name="customer_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Customer $customer, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Customer $thisCustomer, EntityManagerInterface $entityManager): Response
     {
         if (!empty($_POST['customer'])) {
+            $customer = new Customer();
+            $customer->setId($thisCustomer->getId());
             $customer->init($_POST['customer']);
 
             if (!empty($_POST['form'])) {
@@ -100,7 +102,7 @@ class CustomerController extends AbstractController
         }
 
         return $this->renderForm('customer/edit.html.twig', [
-            'customer' => $customer,
+            'customer' => $thisCustomer,
             'companyTypes' => $entityManager->getRepository(CompanyType::class)->findAll(),
             'contactTypes' => $entityManager->getRepository(ContactType::class)->findAll()
         ]);

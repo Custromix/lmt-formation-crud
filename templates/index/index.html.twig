@@ -2,21 +2,10 @@
 
 {% block title %}Hello IndexController!{% endblock %}
 
-{% block titlePage %}Page d'accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/Professional/LMT/symfony_lmt/lmt-formation/src/Controller/IndexController.php'|file_link(0) }}">src/Controller/IndexController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/Professional/LMT/symfony_lmt/lmt-formation/templates/index/index.html.twig'|file_link(0) }}">templates/index/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div style="margin-top: 13%" class="text-center">
+        <img src="{{ asset('img/lmt-logo.png') }}" alt="logo-lmt" style="width: 35%; height: auto;" class="rounded">
+        <h1 class="mt-4 text-center" style="font-size: 5vw;">LMT Formation Accueil</h1>
+    </div>
 {% endblock %}

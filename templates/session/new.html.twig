@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}New Session{% endblock %}
+{% block titlePage %}Création d'une nouvelle session{% endblock %}
 
 {% block body %}
-    <h1>Create new Session</h1>
 
     <div>
         <div class="card">
@@ -98,20 +98,20 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-1">
-                            <input type="submit" class="btn btn-primary" value="Valider">
+                            <input type="submit" class="btn btn-primary btn-block" value="Confirmer">
                         </div>
                     </div>
+                    <a href="{{ path('session_index') }}" class="btn btn-secondary">Retour</a>
                 </form>
             </div>
         </div>
     </div>
 
-    <a href="{{ path('session_index') }}">back to list</a>
+
 {% endblock %}
 
 {% block endjavascripts %}
     <script>
-
         var nbrDate = 0;
 
         document.getElementById('btn-more-date').addEventListener('click', function () {

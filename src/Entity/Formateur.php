@@ -27,7 +27,7 @@ class Formateur
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Firstname;
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=3)
@@ -92,12 +92,12 @@ class Formateur
 
     public function getFirstname(): ?string
     {
-        return $this->Firstname;
+        return $this->firstname;
     }
 
-    public function setFirstname(string $Firstname): self
+    public function setFirstname(string $firstname): self
     {
-        $this->Firstname = $Firstname;
+        $this->firstname = $firstname;
 
         return $this;
     }

@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
+use App\Entity\Customer;
+use App\Entity\StandardTraining;
 use App\Entity\TrainingRequest;
 use App\Form\TrainingRequestType;
 use App\Repository\TrainingRequestRepository;
@@ -25,20 +28,27 @@ class TrainingRequestController extends AbstractController
     #[Route('/new', name: 'training_request_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $trainingRequest = new TrainingRequest();
-        $form = $this->createForm(TrainingRequestType::class, $trainingRequest);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($trainingRequest);
-            $entityManager->flush();
+        if (!empty($_POST['trainingRequest'])) {
+            $trainingRequest = new TrainingRequest();
+            $trainingRequest->init($_POST['trainingRequest']);
 
+            if (!empty($_POST['trainingRequest']['training'])) {
+                foreach ($_POST['trainingRequest']['training'] as $aTrainingForm) {
+                    $training = new StandardTraining();
+                    $training->setId(intval($aTrainingForm['id']));
+
+                    $trainingRequest->addStandardTraining($training);
+                }
+            }
+
+            $entityManager->getRepository(TrainingRequest::class)->addTrainingRequestAndTrainings($trainingRequest);
             return $this->redirectToRoute('training_request_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('training_request/new.html.twig', [
-            'training_request' => $trainingRequest,
-            'form' => $form,
+            'trainings' => $entityManager->getRepository(StandardTraining::class)->findAll(),
+            'customers' => $entityManager->getRepository(Customer::class)->findAll(),
         ]);
     }
 
@@ -51,20 +61,29 @@ class TrainingRequestController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'training_request_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, TrainingRequest $trainingRequest, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, TrainingRequest $thisTrainingRequest, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(TrainingRequestType::class, $trainingRequest);
-        $form->handleRequest($request);
+        if (!empty($_POST['trainingRequest']['training'])) {
+            $trainingRequest = new TrainingRequest();
+            $trainingRequest->init($_POST['trainingRequest']);
+            $trainingRequest->setId($thisTrainingRequest->getId());
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            if (!empty($_POST['trainingRequest']['training'])) {
+                foreach ($_POST['trainingRequest']['training'] as $aTrainingForm) {
+                    $training = new StandardTraining();
+                    $training->setId(intval($aTrainingForm['id']));
+                    $trainingRequest->addStandardTraining($training);
+                }
+            }
 
-            return $this->redirectToRoute('training_request_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->getRepository(TrainingRequest::class)->updateTrainingRequestAndTrainings($trainingRequest);
+            return $this->redirectToRoute('training_request_edit', ['id' => $thisTrainingRequest->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('training_request/edit.html.twig', [
-            'training_request' => $trainingRequest,
-            'form' => $form,
+            'trainingRequest' => $thisTrainingRequest,
+            'trainings' => $entityManager->getRepository(StandardTraining::class)->findAll(),
+            'customers' => $entityManager->getRepository(Customer::class)->findAll(),
         ]);
     }
 

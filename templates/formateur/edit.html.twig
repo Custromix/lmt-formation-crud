@@ -1,13 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Edit Formateur{% endblock %}
+{% block titlePage %}Modification du formateur n°{{ formateur.getId }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Formateur</h1>
 
-    {{ include('formateur/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="container">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Nouveaux formateur</h6>
+            </div>
+            <div class="card-body">
+                {{ include('formateur/_form.html.twig', {'button_label': 'Update'}) }}
+                <div class="row justify-content-between">
+                    <div class="col-2">
+                        <a href="{{ path('formateur_index') }}" class="btn btn-secondary">Retour</a>
+                    </div>
+                    <div class="col-2">
+                        {{ include('formateur/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('formateur_index') }}">back to list</a>
-
-    {{ include('formateur/_delete_form.html.twig') }}
 {% endblock %}

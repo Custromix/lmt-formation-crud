@@ -6,7 +6,16 @@
 
 {% block body %}
 
-    {{ include('formateur/_form.html.twig') }}
+    <div class="container">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Nouveaux formateur</h6>
+            </div>
+            <div class="card-body">
+                {{ include('formateur/_form.html.twig') }}
+                <a href="{{ path('formateur_index') }}" class="btn btn-secondary">Retour</a>
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('formateur_index') }}">back to list</a>
 {% endblock %}
