@@ -45,11 +45,6 @@ class StandardTraining
     private $reference;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $family;
-
-    /**
      * @ORM\ManyToMany(targetEntity=TrainingRequest::class, inversedBy="standardTrainings")
      */
     private $TrainingRequest;

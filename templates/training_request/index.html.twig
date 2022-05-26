@@ -1,28 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}TrainingRequest index{% endblock %}
+{% block titlePage %}Liste des demandes de formations{% endblock %}
 
 {% block body %}
-    <h1>TrainingRequest index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Firstname</th>
+                <th>Modifier</th>
+                <th>Nom</th>
+                <th>Prénom</th>
                 <th>Mail</th>
-                <th>Phone</th>
-                <th>DateRequest</th>
+                <th>Téléphone</th>
+                <th>Date de la demande</th>
                 <th>Note</th>
-                <th>Status</th>
-                <th>actions</th>
+                <th>Statut</th>
             </tr>
         </thead>
         <tbody>
         {% for training_request in training_requests %}
             <tr>
-                <td>{{ training_request.id }}</td>
+                <td>
+                    <a href="{{ path('training_request_edit', {'id': training_request.id}) }}">Modifier</a>
+                </td>
                 <td>{{ training_request.name }}</td>
                 <td>{{ training_request.firstname }}</td>
                 <td>{{ training_request.mail }}</td>
@@ -30,10 +31,6 @@
                 <td>{{ training_request.dateRequest ? training_request.dateRequest|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ training_request.note }}</td>
                 <td>{{ training_request.status }}</td>
-                <td>
-                    <a href="{{ path('training_request_show', {'id': training_request.id}) }}">show</a>
-                    <a href="{{ path('training_request_edit', {'id': training_request.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -43,5 +40,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('training_request_new') }}">Create new</a>
 {% endblock %}

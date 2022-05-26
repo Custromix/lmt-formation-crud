@@ -1,4 +1,23 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="row justify-content-around">
+        {{ (form_row(form.reference)) }}
+    </div>
+    <div class="row justify-content-around">
+        {{ (form_row(form.nom)) }}
+        {{ (form_row(form.nbHours)) }}
+    </div>
+    <div class="row justify-content-around">
+        {{ (form_row(form.trainingType)) }}
+    </div>
+    <div class="row justify-content-around">
+        {{ (form_row(form.trainingPrice)) }}
+    </div>
+    <div class="row justify-content-around">
+        {{ (form_row(form.materials)) }}
+    </div>
+    <div style="margin-top: 3%" class="row justify-content-around">
+        <div class="col-2">
+            <button class="btn btn-primary btn-block">{{ button_label|default('Confirmer') }}</button>
+        </div>
+    </div>
 {{ form_end(form) }}

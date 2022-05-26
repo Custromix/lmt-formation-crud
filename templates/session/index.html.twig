@@ -1,38 +1,34 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Session index{% endblock %}
+{% block titlePage %}Liste des sessions{% endblock %}
 
 {% block body %}
-    <h1>Session index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Place</th>
-                <th>NbTrainee</th>
-                <th>EstimatePrice</th>
-                <th>NumberEstimate</th>
-                <th>PurchaseOrder</th>
+                <th></th>
+                <th>Modifier</th>
+                <th>Lieu de formation</th>
+                <th>Nombre de stagiaires</th>
+                <th>Prix du devis</th>
+                <th>Bon de commande</th>
                 <th>Note</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for session in sessions %}
             <tr>
                 <td><a href="/todolist/{{ session.getToDoList.getId }}/edit" class="btn btn-primary">Documents administratifs</a></td>
-                <td>{{ session.id }}</td>
+                <td>
+                    <a href="{{ path('session_edit', {'id': session.id}) }}">Modifier</a>
+                </td>
                 <td>{{ session.place }}</td>
                 <td>{{ session.nbTrainee }}</td>
                 <td>{{ session.estimatePrice }}</td>
-                <td>{{ session.numberEstimate }}</td>
                 <td>{{ session.purchaseOrder }}</td>
                 <td>{{ session.note }}</td>
-                <td>
-                    <a href="{{ path('session_show', {'id': session.id}) }}">show</a>
-                    <a href="{{ path('session_edit', {'id': session.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -42,5 +38,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('session_new') }}">Create new</a>
 {% endblock %}

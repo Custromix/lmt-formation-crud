@@ -1,37 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}StandardTraining index{% endblock %}
+{% block titlePage %}Liste des formations{% endblock %}
 
 {% block body %}
-    <h1>StandardTraining index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Modifier</th>
                 <th>Nom</th>
-                <th>NbHours</th>
-                <th>TrainingPrice</th>
-                <th>Materials</th>
-                <th>Reference</th>
-                <th>Family</th>
-                <th>actions</th>
+                <th>Nombres d'heures</th>
+                <th>Prix de la formation</th>
+                <th>Matériaux</th>
+                <th>Référence</th>
             </tr>
         </thead>
         <tbody>
         {% for standard_training in standard_trainings %}
             <tr>
-                <td>{{ standard_training.id }}</td>
+                <td>
+                    <a href="{{ path('standard_training_edit', {'id': standard_training.id}) }}">Modifier</a>
+                </td>
                 <td>{{ standard_training.nom }}</td>
                 <td>{{ standard_training.nbHours }}</td>
                 <td>{{ standard_training.trainingPrice }}</td>
                 <td>{{ standard_training.materials }}</td>
                 <td>{{ standard_training.reference }}</td>
-                <td>{{ standard_training.family }}</td>
-                <td>
-                    <a href="{{ path('standard_training_show', {'id': standard_training.id}) }}">show</a>
-                    <a href="{{ path('standard_training_edit', {'id': standard_training.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -41,5 +36,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('standard_training_new') }}">Create new</a>
 {% endblock %}

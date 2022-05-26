@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CompanyType{% endblock %}
+
+{% block titlePage %}Créer une nouvelle famille{% endblock %}
+
+{% block body %}
+
+    <div style="margin-top: 15%" class="container">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Nouvelle famille</h6>
+            </div>
+            <div class="card-body">
+                {{ include('company_type/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formateur index{% endblock %}
+{% block titlePage %}Liste des formateurs{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Modifier</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Trigrame</th>
+                <th>Compétence</th>
+                <th>Salaire</th>
+                <th>Urssaf</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for formateur in formateurs %}
+            <tr>
+                <td>
+                    <a href="{{ path('formateur_edit', {'id': formateur.id}) }}">Modifier</a>
+                </td>
+                <td>{{ formateur.name }}</td>
+                <td>{{ formateur.Firstname }}</td>
+                <td>{{ formateur.trigram }}</td>
+                <td>{{ formateur.skill }}</td>
+                <td>{{ formateur.salary }}</td>
+                <td>{{ formateur.urssaf }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

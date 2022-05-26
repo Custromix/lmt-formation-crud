@@ -75,6 +75,12 @@ class TrainingRequest
         $this->customizeTrainings = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->name;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
