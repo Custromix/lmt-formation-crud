@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 
 #[Route('/todolist')]
 class ToDoListController extends AbstractController
@@ -25,7 +27,6 @@ class ToDoListController extends AbstractController
     #[Route('/new/{id}', name: 'to_do_list_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        var_dump();
         $toDoList = new ToDoList();
         $form = $this->createForm(ToDoListType::class, $toDoList);
         $form->handleRequest($request);
@@ -43,11 +44,35 @@ class ToDoListController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'to_do_list_show', methods: ['GET'])]
-    public function show(ToDoList $toDoList): Response
+    /**
+     * @Route("/{id}/{name}/download", name="to_do_list_download", methods={"GET"})
+     */
+    public function download(string $name, ToDoList $toDoList): Response
     {
-        return $this->render('to_do_list/show.html.twig', [
+        if (is_dir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name)){
+            $finder = new Finder();
+            $files = $finder->files()->in('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name);
+
+            /*
+            $fsObject = new Filesystem();
+            if ($fsObject->exists('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Session/'. $toDoList->getSession()->getCustomer()[0]->getName()))
+            {
+                $fsObject->mkdir($new_dir_path, 0775);
+                $fsObject->chown($new_dir_path, "www-data");
+                $fsObject->chgrp($new_dir_path, "www-data");
+                umask($old);
+            }*/
+
+            $filesName = [];
+            foreach ($files as $file)
+            {
+                array_push($filesName, $file->getRelativePathname());
+            }
+        }
+
+        return $this->renderForm('to_do_list/file.html.twig', [
             'to_do_list' => $toDoList,
+            'filesName' => $filesName,
         ]);
     }
 

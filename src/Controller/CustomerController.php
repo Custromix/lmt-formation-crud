@@ -14,9 +14,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Filesystem;
+
 
 /**
  * @Route("/customer")
@@ -41,6 +44,7 @@ class CustomerController extends AbstractController
 
         if (!empty($_POST['customer'])) {
             $customer = new Customer();
+            $fsObject = new Filesystem();
             $customer->init($_POST['customer']);
 
             if (!empty($_POST['form'][0]['name'])) {
@@ -50,6 +54,7 @@ class CustomerController extends AbstractController
                 }
             }
             $entityManager->getRepository(Customer::class)->addCustomerAndContact($customer);
+            $fsObject->mkdir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Session/' . $customer->getName());
             return $this->redirectToRoute('customer_index', [], Response::HTTP_SEE_OTHER);
         }
 

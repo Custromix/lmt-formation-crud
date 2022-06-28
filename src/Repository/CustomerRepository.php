@@ -32,8 +32,8 @@ class CustomerRepository extends ServiceEntityRepository
 
         $insertCustomerAndContactsQuery = "
                                     START TRANSACTION;
-                                    INSERT INTO customer (COMPANY_TYPE_ID, NAME, FIRSTNAME, WEBSITE, ADDRESS, CITY, POSTAL)
-                                    VALUES (:idCompanyType, :name, :firstname, :website, :address, :city, :postal);
+                                    INSERT INTO customer (COMPANY_TYPE_ID, NAME, WEBSITE, ADDRESS, COUNTRY, CITY, POSTAL)
+                                    VALUES (:idCompanyType, :name, :website, :address, :country, :city, :postal);
                                     SELECT LAST_INSERT_ID() into @id;
                                     " . $insertContact . "
                                     COMMIT;
@@ -41,9 +41,9 @@ class CustomerRepository extends ServiceEntityRepository
         $insertCustomerAndContacts = $this->getEntityManager()->getConnection()->prepare($insertCustomerAndContactsQuery);
         $insertCustomerAndContacts->bindValue(':idCompanyType', $customer->getCompanyType()->getId());
         $insertCustomerAndContacts->bindValue(':name', $customer->getName());
-        $insertCustomerAndContacts->bindValue(':firstname', $customer->getFirstname());
         $insertCustomerAndContacts->bindValue(':website', $customer->getWebsite());
         $insertCustomerAndContacts->bindValue(':address', $customer->getAddress());
+        $insertCustomerAndContacts->bindValue(':country', $customer->getCountry());
         $insertCustomerAndContacts->bindValue(':city', $customer->getCity());
         $insertCustomerAndContacts->bindValue(':postal', $customer->getPostal());
 
@@ -90,9 +90,9 @@ class CustomerRepository extends ServiceEntityRepository
                                     UPDATE customer
                                     SET COMPANY_TYPE_ID = :idCompanyType,
                                     NAME = :name,
-                                    FIRSTNAME = :firstname,
                                     WEBSITE = :website,
                                     ADDRESS = :address,
+                                    COUNTRY = :country,
                                     CITY = :city,
                                     POSTAL = :postal
                                     WHERE ID = :idUser;
@@ -103,9 +103,9 @@ class CustomerRepository extends ServiceEntityRepository
         $insertCustomerAndContacts = $this->getEntityManager()->getConnection()->prepare($insertCustomerAndContactsQuery);
         $insertCustomerAndContacts->bindValue(':idCompanyType', $customer->getCompanyType()->getId());
         $insertCustomerAndContacts->bindValue(':name', $customer->getName());
-        $insertCustomerAndContacts->bindValue(':firstname', $customer->getFirstname());
         $insertCustomerAndContacts->bindValue(':website', $customer->getWebsite());
         $insertCustomerAndContacts->bindValue(':address', $customer->getAddress());
+        $insertCustomerAndContacts->bindValue(':country', $customer->getCountry());
         $insertCustomerAndContacts->bindValue(':city', $customer->getCity());
         $insertCustomerAndContacts->bindValue(':postal', $customer->getPostal());
         $insertCustomerAndContacts->bindValue(':idUser', $customer->getId());

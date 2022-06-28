@@ -27,7 +27,7 @@ class Customer
     /**
      * @ORM\Column(type="string", length=32)
      */
-    private $firstname;
+    private $country;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -78,7 +78,7 @@ class Customer
 
     public function __toString()
     {
-        return $this->name . " " . $this->firstname;
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -106,14 +106,14 @@ class Customer
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getCountry(): ?string
     {
-        return $this->firstname;
+        return $this->country;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setCountry(string $country): self
     {
-        $this->firstname = $firstname;
+        $this->country = $country;
 
         return $this;
     }
@@ -275,7 +275,7 @@ class Customer
         $companyType->setId($customerAttribut['companyType']);
         $this->setCompanyType($companyType);
         $this->setName($customerAttribut['name']);
-        $this->setFirstname($customerAttribut['firstname']);
+        $this->setCountry($customerAttribut['country']);
         $this->setWebsite($customerAttribut['website']);
         $this->setAddress($customerAttribut['address']);
         $this->setCity($customerAttribut['city']);

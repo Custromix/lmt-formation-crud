@@ -19,6 +19,20 @@ class FormateurRepository extends ServiceEntityRepository
         parent::__construct($registry, Formateur::class);
     }
 
+    public function getTrainerBySkills(int $idTrainaing)
+    {
+        $selectTrainerBySkills = $this->getEntityManager()->getConnection()->prepare(
+            "SELECT DISTINCT F.ID, F.NAME, F.FIRSTNAME
+                FROM Formateur F
+                INNER JOIN to_know T ON F.id = T.trainer_id
+                INNER JOIN skills S ON T.skills_id = S.skills_id
+                INNER JOIN training_type_skills TRAINSKILL ON S.skills_id = TRAINSKILL.skills_id
+                INNER JOIN training_type TRAINTYPE ON TRAINSKILL.training_type_id = TRAINTYPE.id
+                INNER JOIN formation_type_formation TRAINTYPETRAIN ON TRAINTYPE.id = TRAINTYPETRAIN.type_formation_id
+                INNER JOIN standard_training ST ON TRAINTYPETRAIN.formation_id = 1");
+        dd(json_encode($selectTrainerBySkills->executeQuery()->fetchAssociative()));
+    }
+
     // /**
     //  * @return Formateur[] Returns an array of Formateur objects
     //  */

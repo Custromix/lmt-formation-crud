@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\ToDoListRepository;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
-
 /**
  * @ORM\Entity(repositoryClass=ToDoListRepository::class)
  */
@@ -17,6 +16,11 @@ class ToDoList
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var (type="string", length=32, nullable=true)
+     */
+    private $type;
 
     /**
      * @ORM\Column(type="boolean", length=7, nullable=true)
@@ -86,6 +90,22 @@ class ToDoList
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
     }
 
     public function getContract(): ?bool

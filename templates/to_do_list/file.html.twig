@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToDoList selection{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 2%; margin-bottom: 2%;" class="card mb-4">
+        <div class="card-header bg-light">
+            <i class="fas fa-table me-1"></i>
+            Les contrats à télécharger
+        </div>
+        <div class="card-body">
+            {% for fileName in filesName %}
+            <div class="col-12">
+                <label for="1">{{ fileName }}</label>
+                <input type="checkbox" value="{{ fileName }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -40,7 +40,7 @@
                     <div class="row justify-content-around" id="typeFinancingRow">
                         <div class="col-5">
                             <label>Toutes les formations</label>
-                            <select name="session[training]" class="form-control" required>
+                            <select name="session[training]" class="form-control" onchange="getGoodTrainer()" required>
                                 <option value="" hidden>Formation désirée</option>
                                 {% for standardTraining in trainings %}
                                     <option value="{{ standardTraining.id }}">{{ standardTraining }}</option>
@@ -175,6 +175,42 @@
                     selectFincaningType.options[selectFincaningType.length - 1].remove();
                 }
             }
+
+        }
+    </script>
+    <script>
+        function getGoodTrainer()
+        {
+            var getHttpRequest = function () {
+                var httpRequest = false;
+
+                if (window.XMLHttpRequest) {
+                    httpRequest = new XMLHttpRequest();
+                    if (httpRequest.overrideMimeType) {
+                        httpRequest.overrideMimeType('text/xml');
+                    }
+                }
+                else if (window.ActiveXObject) { // IE
+                    try {
+                        httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+                    }
+                    catch (e) {
+                        try {
+                            httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        catch (e) {}
+                    }
+                }
+
+                if (!httpRequest) {
+                    alert('Abandon :( Impossible de créer une instance XMLHTTP');
+                    return false;
+                }
+
+                return httpRequest
+            }
+
+            getHttpRequest.open()
 
         }
     </script>

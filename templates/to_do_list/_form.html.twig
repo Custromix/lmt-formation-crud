@@ -1,6 +1,123 @@
 {{ form_start(form) }}
 
-    {{ form_widget(form) }}
 
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div style="margin-top: 2%; margin-bottom: 2%;" class="card mb-4">
+    <div class="card-header bg-light">
+        <i class="fas fa-table me-1"></i>
+        Tâche à faire
+    </div>
+    <div class="card-body">
+        <form action="" method="post">
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.Contract)) }}
+                        <span class="label-text">{{ (form_label(form.Contract)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.agreement)) }}
+                        <span class="label-text">{{ (form_label(form.agreement)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.convocation)) }}
+                        <span class="label-text">{{ (form_label(form.convocation)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div><div class="col-6">
+                    <label>
+                        {{ (form_widget(form.trainerFolder)) }}
+                        <span class="label-text">{{ (form_label(form.trainerFolder)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.certificate)) }}
+                        <span class="label-text">{{ (form_label(form.certificate)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.empowermentTitle)) }}
+                        <span class="label-text">{{ (form_label(form.empowermentTitle)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.invoice)) }}
+                        <span class="label-text">{{ (form_label(form.invoice)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.survey)) }}
+                        <span class="label-text">{{ (form_label(form.survey)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.settlement)) }}
+                        <span class="label-text">{{ (form_label(form.settlement)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.signInSheet)) }}
+                        <span class="label-text">{{ (form_label(form.signInSheet)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <label>
+                        {{ (form_widget(form.frontPage)) }}
+                        <span class="label-text">{{ (form_label(form.frontPage)) }}</span>
+                    </label>
+                    <a style="margin-left: 2%; color: black;" onmouseover="this.style.color='#37DA00';" onmouseout="this.style.color='black';" href="">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="" class="btn" style="color: green;">Liste des matériels</a>
+                </div>
+            </div>
+            <div style="margin-top: 2%;" class="row justify-content-center">
+                <div class="col-2">
+                    <input type="submit" name="button" class="btn btn-primary btn-block" value="Confirmer">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 {{ form_end(form) }}

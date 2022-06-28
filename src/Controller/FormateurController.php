@@ -6,7 +6,9 @@ use App\Entity\Formateur;
 use App\Form\FormateurType;
 use App\Repository\FormateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,6 +69,17 @@ class FormateurController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}/getfomateurskills', name: 'formateur_edit', methods: ['GET', 'POST'])]
+    public function getTrainerBySkillsToJson(int $id, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $entityManager->getRepository(Formateur::class)->getTrainerBySkills(1);
+
+
+
+
+    }
+
 
     #[Route('/{id}', name: 'formateur_delete', methods: ['POST'])]
     public function delete(Request $request, Formateur $formateur, EntityManagerInterface $entityManager): Response
