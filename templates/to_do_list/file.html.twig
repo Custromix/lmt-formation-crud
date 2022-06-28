@@ -6,15 +6,20 @@
     <div style="margin-top: 2%; margin-bottom: 2%;" class="card mb-4">
         <div class="card-header bg-light">
             <i class="fas fa-table me-1"></i>
-            Les contrats à télécharger
+            Les {{ type }}s à télécharger
         </div>
         <div class="card-body">
-            {% for fileName in filesName %}
-            <div class="col-12">
-                <label for="1">{{ fileName }}</label>
-                <input type="checkbox" value="{{ fileName }}">
-            </div>
-            {% endfor %}
+            <form action="/todolist/{{ to_do_list.getId }}/{{ type }}/download" method="post">
+                {% set count = 0 %}
+                {% for fileName in filesName %}
+                    <div class="col-12">
+                        <label>{{ fileName }}</label>
+                        <input type="checkbox" name="form[{{ type }}_{{ count }}]" value="{{ fileName }}">
+                    </div>
+                    {% set count = count + 1 %}
+                {% endfor %}
+                <input type="submit" class="btn btn-primary" value="Confirmer">
+            </form>
         </div>
     </div>
 {% endblock %}

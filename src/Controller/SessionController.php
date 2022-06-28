@@ -15,6 +15,7 @@ use App\Entity\TrainingType;
 use App\Form\Session1Type;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,12 +37,12 @@ class SessionController extends AbstractController
     {
         if (!empty($_POST['session'])) {
             $session = new Session();
+            $fsObject = new Filesystem();
             $session->init($_POST['session']);
 
             if (!empty($_POST['customer'])){
                 foreach ($_POST['customer'] as $customerId){
-                    $aCustomer = new Customer();
-                    $aCustomer->setId($customerId);
+                    $aCustomer = $entityManager->getRepository(Customer::class)->find($customerId);
                     $session->addCustomer($aCustomer);
                 }
             }
@@ -63,8 +64,8 @@ class SessionController extends AbstractController
                     $session->addSessionDate($aSessionDate);
                 }
             }
-
             $entityManager->getRepository(Session::class)->addSessionAndDateAndCustomerAndBePaid($session);
+            $fsObject->mkdir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Session/' . $session->getCustomer()[0]->getName() . '/'.$session->getSessionDate()[0]->getDateFormation().'_'.$entityManager->getRepository(StandardTraining::class)->find($session->getStandardTraining()->getId())->getReference().'_'.$session->getId().'_'.$entityManager->getRepository(Status::class)->find($session->getStatus()->getId())->getName().'/');
             return $this->redirectToRoute('session_index', [], Response::HTTP_SEE_OTHER);
         }
 

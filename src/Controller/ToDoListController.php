@@ -45,35 +45,41 @@ class ToDoListController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{name}/download", name="to_do_list_download", methods={"GET"})
+     * @Route("/{id}/{name}/download", name="to_do_list_download", methods={"GET", "POST"})
      */
     public function download(string $name, ToDoList $toDoList): Response
     {
-        if (is_dir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name)){
-            $finder = new Finder();
-            $files = $finder->files()->in('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name);
-
-            /*
+        if (isset($_POST['form'])){
+            $filesName = $_POST['form'];
             $fsObject = new Filesystem();
-            if ($fsObject->exists('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Session/'. $toDoList->getSession()->getCustomer()[0]->getName()))
+            foreach ($filesName as $file)
             {
-                $fsObject->mkdir($new_dir_path, 0775);
-                $fsObject->chown($new_dir_path, "www-data");
-                $fsObject->chgrp($new_dir_path, "www-data");
-                umask($old);
-            }*/
-
-            $filesName = [];
-            foreach ($files as $file)
-            {
-                array_push($filesName, $file->getRelativePathname());
+                $fsObject->copy('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/' . $name .'/' . $file, 'D:/Professional/LMT/symfony_lmt/lmt-formation/src/session/'.$toDoList->getSession()->getCustomer()[0]->getName().'/'.$toDoList->getSession()->getSessionDate()[0]->getDateFormation().'_'.$toDoList->getSession()->getStandardTraining()->getReference().'_'.$toDoList->getSession()->getId().'_'.$toDoList->getSession()->getStatus().'/'.$file);
             }
+            return $this->renderForm('to_do_list/fileSuccess.html.twig', [
+                'to_do_list' => $toDoList,
+                'filesName' => $filesName,
+                'type' => $name
+            ]);
+        }else{
+            if (is_dir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name)){
+                $finder = new Finder();
+                $files = $finder->files()->in('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name);
+
+                $filesName = [];
+                foreach ($files as $file)
+                {
+                    array_push($filesName, $file->getRelativePathname());
+                }
+            }
+
+            return $this->renderForm('to_do_list/file.html.twig', [
+                'to_do_list' => $toDoList,
+                'filesName' => $filesName,
+                'type' => $name
+            ]);
         }
 
-        return $this->renderForm('to_do_list/file.html.twig', [
-            'to_do_list' => $toDoList,
-            'filesName' => $filesName,
-        ]);
     }
 
     #[Route('/{id}/edit', name: 'to_do_list_edit', methods: ['GET', 'POST'])]

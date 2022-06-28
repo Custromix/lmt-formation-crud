@@ -22,7 +22,7 @@
             <tr>
                 <td><a href="/todolist/{{ session.getToDoList.getId }}/edit" class="btn btn-primary">Documents administratifs</a></td>
                 <td>
-                    <a href="{{ path('session_edit', {'id': session.id}) }}">Modifier</a>
+                    <a href="{{ path('session_edit', {'id': session.getToDoList.getId}) }}">Modifier</a>
                 </td>
                 <td>{{ session.place }}</td>
                 <td>{{ session.nbTrainee }}</td>

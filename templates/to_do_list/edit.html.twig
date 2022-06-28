@@ -4,16 +4,11 @@
 {% endblock %}
 
 {% block title %}Edit ToDoList{% endblock %}
+{% block titlePage %}Modification de la ToDoList n°{{ to_do_list.getId }}{% endblock %}
 
 {% block body %}
-    <h1>Edit ToDoList</h1>
 
     {{ include('to_do_list/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('session_index') }}">back to list</a>
-
-    {{ include('to_do_list/_delete_form.html.twig') }}
-
-
-    <div><a href="session.php" class="btn btn-secondary ">Retour aux session</a></div>
+    <div><a href="{{ path('session_index') }}" class="btn btn-secondary ">Retour aux session</a></div>
 {% endblock %}

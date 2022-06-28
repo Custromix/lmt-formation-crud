@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToDoList selection{% endblock %}
+{% block titlePage %}Succès du téléchargement{% endblock %}
+
+{% block body %}
+<div>
+    {% for fileName in filesName %}
+        <p>Le fichier {{ fileName }} numéro {{ to_do_list.getSession.getId }} pour {{ to_do_list.getSession.getCustomer[0].getName }} a été téléchargé avec succès.</p>
+    {% endfor %}
+    Appuyez sur le boutton pour revenir en arrière.
+    <a href="/todolist/{{ to_do_list.getId }}/edit" class="btn btn-secondary">Retour à la todolist</a>
+</div>
+{% endblock %}

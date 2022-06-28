@@ -17,7 +17,7 @@
                             <label>Client</label>
                             <select name="customer[0]" id="" class="form-control">
                                 {% for customer in customers %}
-                                    <option value="{{ customer.id }}">{{ customer.name }} {{ customer.firstname }}</option>
+                                    <option value="{{ customer.id }}">{{ customer.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
