@@ -194,6 +194,21 @@ class SessionRepository extends ServiceEntityRepository
         $updateSessionAndDateAndSessionCustomer->executeQuery();
     }
 
+
+     /**
+      * @return int Returns last insert id from Session
+      */
+    public function lastInsertId()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.id')
+            ->orderBy('s.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()[0]
+        ;
+    }
+
     // /**
     //  * @return Session[] Returns an array of Session objects
     //  */

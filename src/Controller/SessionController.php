@@ -65,7 +65,8 @@ class SessionController extends AbstractController
                 }
             }
             $entityManager->getRepository(Session::class)->addSessionAndDateAndCustomerAndBePaid($session);
-            $fsObject->mkdir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Session/' . $session->getCustomer()[0]->getName() . '/'.$session->getSessionDate()[0]->getDateFormation().'_'.$entityManager->getRepository(StandardTraining::class)->find($session->getStandardTraining()->getId())->getReference().'_'.$session->getId().'_'.$entityManager->getRepository(Status::class)->find($session->getStatus()->getId())->getName().'/');
+            $idSession = $entityManager->getRepository(Session::class)->lastInsertId()['id'];
+            $fsObject->mkdir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Session/' . $session->getCustomer()[0]->getName() . '/'.$session->getSessionDate()[0]->getDateFormation().'_'.$entityManager->getRepository(StandardTraining::class)->find($session->getStandardTraining()->getId())->getReference().'_'. $idSession .'_'.$entityManager->getRepository(Status::class)->find($session->getStatus()->getId())->getName().'/');
             return $this->redirectToRoute('session_index', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -47,29 +47,30 @@ class ToDoListController extends AbstractController
     /**
      * @Route("/{id}/{name}/download", name="to_do_list_download", methods={"GET", "POST"})
      */
-    public function download(string $name, ToDoList $toDoList): Response
+    public function isDownload(string $name, ToDoList $toDoList): Response
     {
-        if (isset($_POST['form'])){
+        if (isset($_POST['form'])) {
             $filesName = $_POST['form'];
-            $fsObject = new Filesystem();
-            foreach ($filesName as $file)
-            {
-                $fsObject->copy('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/' . $name .'/' . $file, 'D:/Professional/LMT/symfony_lmt/lmt-formation/src/session/'.$toDoList->getSession()->getCustomer()[0]->getName().'/'.$toDoList->getSession()->getSessionDate()[0]->getDateFormation().'_'.$toDoList->getSession()->getStandardTraining()->getReference().'_'.$toDoList->getSession()->getId().'_'.$toDoList->getSession()->getStatus().'/'.$file);
-            }
+
+            $this->download($filesName, $name, $toDoList);
             return $this->renderForm('to_do_list/fileSuccess.html.twig', [
                 'to_do_list' => $toDoList,
                 'filesName' => $filesName,
                 'type' => $name
             ]);
-        }else{
-            if (is_dir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name)){
-                $finder = new Finder();
-                $files = $finder->files()->in('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/'.$name);
 
+        } else {
+            if (is_dir('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/' . $name)) {
+                $finder = new Finder();
+                $files = $finder->files()->in('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/' . $name);
                 $filesName = [];
-                foreach ($files as $file)
-                {
+                foreach ($files as $file) {
                     array_push($filesName, $file->getRelativePathname());
+                }
+
+                if (count($files) === 1 && $name === "devis") {
+                    $this->download($filesName, $name, $toDoList);
+                    return $this->redirectToRoute('session_index', [], Response::HTTP_SEE_OTHER);
                 }
             }
 
@@ -79,7 +80,19 @@ class ToDoListController extends AbstractController
                 'type' => $name
             ]);
         }
+    }
 
+    /**
+     * @param array $filesName
+     * @param string $name
+     * @param ToDoList $toDoList
+     */
+    public function download(array $filesName, string $name, ToDoList $toDoList)
+    {
+        $fsObject = new Filesystem();
+        foreach ($filesName as $file) {
+            $fsObject->copy('D:/Professional/LMT/symfony_lmt/lmt-formation/src/Document/' . $name . '/' . $file, 'D:/Professional/LMT/symfony_lmt/lmt-formation/src/session/' . $toDoList->getSession()->getCustomer()[0]->getName() . '/' . $toDoList->getSession()->getSessionDate()[0]->getDateFormation() . '_' . $toDoList->getSession()->getStandardTraining()->getReference() . '_' . $toDoList->getSession()->getId() . '_' . $toDoList->getSession()->getStatus() . '/' . $file);
+        }
     }
 
     #[Route('/{id}/edit', name: 'to_do_list_edit', methods: ['GET', 'POST'])]
@@ -103,7 +116,7 @@ class ToDoListController extends AbstractController
     #[Route('/{id}', name: 'to_do_list_delete', methods: ['POST'])]
     public function delete(Request $request, ToDoList $toDoList, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$toDoList->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $toDoList->getId(), $request->request->get('_token'))) {
             $entityManager->remove($toDoList);
             $entityManager->flush();
         }
