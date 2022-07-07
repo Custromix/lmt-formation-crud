@@ -57,7 +57,13 @@
                             </div>
                             <div class="col-5">
                                 <label>Site internet</label>
-                                <input type="text" class="form-control" name="customer[website]" value="{{ customer.Website }}">
+                                <input type="text" class="form-control" name="customer[website]" value="{{ customer.getWebsite }}">
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-10">
+                                <label>Note</label>
+                                <textarea name="customer[note]" class="form-control">{{ customer.getNote }}</textarea>
                             </div>
                         </div>
                     </div>
