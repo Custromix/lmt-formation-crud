@@ -32,8 +32,8 @@ class CustomerRepository extends ServiceEntityRepository
 
         $insertCustomerAndContactsQuery = "
                                     START TRANSACTION;
-                                    INSERT INTO customer (COMPANY_TYPE_ID, NAME, WEBSITE, ADDRESS, COUNTRY, CITY, POSTAL)
-                                    VALUES (:idCompanyType, :name, :website, :address, :country, :city, :postal);
+                                    INSERT INTO customer (COMPANY_TYPE_ID, NAME, WEBSITE, ADDRESS, COUNTRY, CITY, POSTAL, NOTE)
+                                    VALUES (:idCompanyType, :name, :website, :address, :country, :city, :postal, :note);
                                     SELECT LAST_INSERT_ID() into @id;
                                     " . $insertContact . "
                                     COMMIT;
@@ -46,6 +46,7 @@ class CustomerRepository extends ServiceEntityRepository
         $insertCustomerAndContacts->bindValue(':country', $customer->getCountry());
         $insertCustomerAndContacts->bindValue(':city', $customer->getCity());
         $insertCustomerAndContacts->bindValue(':postal', $customer->getPostal());
+        $insertCustomerAndContacts->bindValue(':note', $customer->getNote());
 
         for ($i = 0; $i < count($customer->getContacts()); $i++) {
             $insertCustomerAndContacts->bindValue(":idContactType$i", $customer->getContacts()[$i]->getContactType()->getId());
@@ -95,6 +96,7 @@ class CustomerRepository extends ServiceEntityRepository
                                     COUNTRY = :country,
                                     CITY = :city,
                                     POSTAL = :postal
+                                    NOTE = :note
                                     WHERE ID = :idUser;
                                     " . $updateContact . "
                                     " . $insertContact . "
@@ -108,6 +110,7 @@ class CustomerRepository extends ServiceEntityRepository
         $insertCustomerAndContacts->bindValue(':country', $customer->getCountry());
         $insertCustomerAndContacts->bindValue(':city', $customer->getCity());
         $insertCustomerAndContacts->bindValue(':postal', $customer->getPostal());
+        $insertCustomerAndContacts->bindValue(':note', $customer->getNote());
         $insertCustomerAndContacts->bindValue(':idUser', $customer->getId());
 
 

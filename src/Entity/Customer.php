@@ -69,6 +69,11 @@ class Customer
      */
     private $sessions;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $note;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
@@ -280,6 +285,19 @@ class Customer
         $this->setAddress($customerAttribut['address']);
         $this->setCity($customerAttribut['city']);
         $this->setPostal($customerAttribut['postal']);
+        $this->setNote($customerAttribut['note']);
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
+
+        return $this;
     }
 
 
