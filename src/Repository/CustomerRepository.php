@@ -95,7 +95,7 @@ class CustomerRepository extends ServiceEntityRepository
                                     ADDRESS = :address,
                                     COUNTRY = :country,
                                     CITY = :city,
-                                    POSTAL = :postal
+                                    POSTAL = :postal,
                                     NOTE = :note
                                     WHERE ID = :idUser;
                                     " . $updateContact . "
