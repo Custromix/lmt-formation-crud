@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 26 mai 2022 à 22:41
+-- Généré le : jeu. 07 juil. 2022 à 14:38
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -43,11 +43,8 @@ CREATE TABLE IF NOT EXISTS `be_paid` (
 --
 
 INSERT INTO `be_paid` (`financing_type_id`, `session_id`, `facture`) VALUES
-(1, 112, NULL),
-(1, 113, NULL),
-(1, 115, NULL),
-(2, 113, NULL),
-(2, 114, NULL);
+(1, 1, NULL),
+(2, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -60,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `company_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `company_type`
@@ -72,9 +69,8 @@ INSERT INTO `company_type` (`id`, `name`) VALUES
 (3, 'Equipementier'),
 (4, 'SSII'),
 (5, 'Constructeur'),
-(6, 'Constructeur'),
-(7, 'Industrie'),
-(8, 'Batiment');
+(6, 'Industrie'),
+(7, 'Batiment');
 
 -- --------------------------------------------------------
 
@@ -106,7 +102,8 @@ INSERT INTO `contact` (`id`, `contact_type_id`, `customer_id`, `civility`, `name
 (34, 1, 40, 'Mme', 'ABOR', 'Laetitia', 'labor@manteslajolie.fr', '', '01.34.78.81.54'),
 (36, 2, 42, 'Mme', 'HANNIERE', 'Sandrine', '', '', ''),
 (37, 1, 42, 'Mme', 'GOMIS', 'Elisabeth', '', '', ''),
-(38, 2, 43, 'M', 'Moulard', 'Willy', 'w.moulard@aforp.fr', '06 23 28 59 72', '');
+(38, 2, 43, 'M', 'Moulard', 'Willy', 'w.moulard@aforp.fr', '06 23 28 59 72', ''),
+(39, 1, 45, '', 'SABI', 'Abdelkader', '', '+33663107084', '');
 
 -- --------------------------------------------------------
 
@@ -141,23 +138,25 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `company_type_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `firstname` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `website` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `postal` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_81398E09E51E9644` (`company_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `customer`
 --
 
-INSERT INTO `customer` (`id`, `company_type_id`, `name`, `firstname`, `website`, `address`, `city`, `postal`) VALUES
-(40, 2, 'Mairie de Mantes La Jolie', '', '', '31 rue Gambetta', 'Mantes La Jolie', 78200),
-(42, 1, 'ALTRAN', '', '', 'avenue Paul Dautier', 'Vélizy', 78140),
-(43, 1, 'AFORP', '', '', '64 Avenue de la plaine', 'Tremblay- en - France', 93290);
+INSERT INTO `customer` (`id`, `company_type_id`, `name`, `website`, `address`, `country`, `city`, `postal`) VALUES
+(40, 2, 'Mairie de Mantes La Jolie', '', '31 rue Gambetta', '', 'Mantes La Jolie', 78200),
+(42, 1, 'ALTRAN', '', 'avenue Paul Dautier', 'France', 'Vélizy', 78140),
+(43, 1, 'AFORP', '', '64 Avenue de la plaine', '', 'Tremblay- en - France', 93290),
+(44, 1, 'SABI', '', '3 rue Saint Vincent de Paul', 'Abdelkader', 'Chartres - (28000)', 28000),
+(45, 1, 'ACactusRealm', '', '3 rue Saint Vincent de Paul', 'France', 'Chartres - (28000)', 28000);
 
 -- --------------------------------------------------------
 
@@ -263,6 +262,28 @@ INSERT INTO `formateur` (`id`, `name`, `firstname`, `trigram`, `skill`, `salary`
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `formation_type_formation`
+--
+
+DROP TABLE IF EXISTS `formation_type_formation`;
+CREATE TABLE IF NOT EXISTS `formation_type_formation` (
+  `formation_id` int(11) NOT NULL,
+  `type_formation_id` int(11) NOT NULL,
+  PRIMARY KEY (`formation_id`,`type_formation_id`),
+  KEY `formation_id` (`formation_id`,`type_formation_id`),
+  KEY `FK_type_formation` (`type_formation_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `formation_type_formation`
+--
+
+INSERT INTO `formation_type_formation` (`formation_id`, `type_formation_id`) VALUES
+(1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `session`
 --
 
@@ -286,17 +307,15 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `IDX_D044D5D46BF700BD` (`status_id`),
   KEY `IDX_D044D5D48C2B84E9` (`standard_training_id`),
   KEY `IDX_D044D5D4A512D5ED` (`customize_training_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `session`
 --
 
 INSERT INTO `session` (`id`, `trainer_id`, `status_id`, `to_do_list_id`, `standard_training_id`, `customize_training_id`, `place`, `nb_trainee`, `estimate_price`, `number_estimate`, `purchase_order`, `note`) VALUES
-(112, NULL, 2, 111, 4, NULL, '2 rue Paul Dautier   78140 Vélizy-Villacoublay', 4, 100, NULL, NULL, '.'),
-(113, NULL, 2, 112, 13, NULL, 'ESSILOR Le Mans ZA du Vivier 3 rue du Vivier 72700 Allonnes', 2, 2300, NULL, NULL, '.'),
-(114, NULL, 1, 113, 15, NULL, '2 rue Paul Dautier 78140 Vélizy Villacoublay', 3, 1520, NULL, NULL, '.'),
-(115, NULL, 7, 114, 16, NULL, 'SALLE CURIEN Rue Pablo Picasso 78130 Les Mureaux', 4, 3020, NULL, NULL, '                                .\r\n                            ');
+(1, NULL, 1, 1, 3, NULL, ' rue du boucher', 3, 120, NULL, NULL, 'rien'),
+(2, NULL, 6, 2, 18, NULL, 'cz', 4, 1200, NULL, NULL, 'dz');
 
 -- --------------------------------------------------------
 
@@ -318,10 +337,8 @@ CREATE TABLE IF NOT EXISTS `session_customer` (
 --
 
 INSERT INTO `session_customer` (`session_id`, `customer_id`) VALUES
-(112, 42),
-(113, 42),
-(114, 40),
-(115, 43);
+(1, 42),
+(2, 40);
 
 -- --------------------------------------------------------
 
@@ -337,23 +354,40 @@ CREATE TABLE IF NOT EXISTS `session_date` (
   `date_formation` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_6CEF3750613FECDF` (`session_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `session_date`
 --
 
 INSERT INTO `session_date` (`id`, `session_id`, `day`, `date_formation`) VALUES
-(31, 112, 'JOUR_0', '2020-10-19'),
-(32, 113, 'JOUR_0', '2020-12-09'),
-(33, 113, 'JOUR_1', '2020-12-10'),
-(34, 113, 'JOUR_2', '2020-12-11'),
-(35, 114, 'JOUR_0', '2022-07-07'),
-(36, 114, 'JOUR_1', '2022-07-08'),
-(37, 114, 'JOUR_2', '2022-07-11'),
-(38, 114, 'JOUR_3', '2022-07-12'),
-(39, 115, 'JOUR_1', '2021-06-09'),
-(40, 115, 'JOUR_2', '2021-06-10');
+(112, 1, 'JOUR_0', '2020-12-23'),
+(113, 2, 'JOUR_0', '2020-12-23');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `skills`
+--
+
+DROP TABLE IF EXISTS `skills`;
+CREATE TABLE IF NOT EXISTS `skills` (
+  `skills_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`skills_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `skills`
+--
+
+INSERT INTO `skills` (`skills_id`, `name`) VALUES
+(1, 'connaître les lois de l\'électricité, ainsi que les normes à respecter.'),
+(2, 'savoir adopter une vision globale du projet.'),
+(3, 'être capable de respecter des délais stricts.'),
+(4, 'mécanique'),
+(5, 'électronique '),
+(6, 'logiciel');
 
 -- --------------------------------------------------------
 
@@ -380,7 +414,7 @@ CREATE TABLE IF NOT EXISTS `standard_training` (
 --
 
 INSERT INTO `standard_training` (`id`, `training_type_id`, `name`, `nb_hours`, `training_price`, `materials`, `reference`, `family`) VALUES
-(1, NULL, 'Fonctionnement d\'un véhicule électrique/hybride', 14, 1400, NULL, 'FRM_001-B', NULL),
+(1, 1, 'Fonctionnement d\'un véhicule électrique/hybride', 14, 1400, NULL, 'FRM_001-B', NULL),
 (2, NULL, 'Lecture de schéma électrique', 7, 500, NULL, 'FRM_Perso_AJC', NULL),
 (3, NULL, 'Habilitation électrique BRL B1L B2L BCR BEL Essai', 14, 1700, NULL, 'FRM_002-A', NULL),
 (4, NULL, 'Habilitation électrique B1 B2 BC BR BE essai', 21, 1518, NULL, 'FRM_002-D', NULL),
@@ -478,17 +512,48 @@ CREATE TABLE IF NOT EXISTS `to_do_list` (
   `sign_in_sheet` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `front_page` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `to_do_list`
 --
 
 INSERT INTO `to_do_list` (`id`, `contract`, `agreement`, `convocation`, `trainer_folder`, `certificate`, `empowerment_title`, `invoice`, `survey`, `settlement`, `sign_in_sheet`, `front_page`) VALUES
-(111, b'1', b'0000001', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
-(112, b'1', b'0000001', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
-(113, b'1', b'0000000', '1', '0', '1', '0', '0', '1', '0', '0', '0'),
-(114, b'1', b'0000000', '0', '0', '0', '0', '0', '0', '0', '0', '0');
+(1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `to_know`
+--
+
+DROP TABLE IF EXISTS `to_know`;
+CREATE TABLE IF NOT EXISTS `to_know` (
+  `skills_id` int(11) NOT NULL,
+  `trainer_id` int(11) NOT NULL,
+  PRIMARY KEY (`skills_id`,`trainer_id`),
+  KEY `FK_trainer` (`trainer_id`),
+  KEY `skills_id` (`skills_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `to_know`
+--
+
+INSERT INTO `to_know` (`skills_id`, `trainer_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 1),
+(3, 2),
+(3, 3),
+(4, 1),
+(5, 1),
+(6, 1);
 
 -- --------------------------------------------------------
 
@@ -543,6 +608,32 @@ INSERT INTO `training_type` (`id`, `name`) VALUES
 (3, 'Diagnostic automobile'),
 (4, 'Protocole de communication'),
 (5, 'Outil de développement et de validation');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `training_type_skills`
+--
+
+DROP TABLE IF EXISTS `training_type_skills`;
+CREATE TABLE IF NOT EXISTS `training_type_skills` (
+  `training_type_id` int(11) NOT NULL,
+  `skills_id` int(11) NOT NULL,
+  PRIMARY KEY (`training_type_id`,`skills_id`),
+  KEY `training_type_id` (`training_type_id`,`skills_id`),
+  KEY `FK_skills` (`skills_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Déchargement des données de la table `training_type_skills`
+--
+
+INSERT INTO `training_type_skills` (`training_type_id`, `skills_id`) VALUES
+(1, 4),
+(1, 5),
+(2, 1),
+(2, 2),
+(2, 3);
 
 --
 -- Contraintes pour les tables déchargées
