@@ -8,29 +8,23 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Modifier</th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Mail</th>
                 <th>Téléphone</th>
                 <th>Date de la demande</th>
-                <th>Note</th>
-                <th>Statut</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         {% for training_request in training_requests %}
             <tr>
-                <td>
-                    <a href="{{ path('training_request_edit', {'id': training_request.id}) }}">Modifier</a>
-                </td>
-                <td>{{ training_request.name }}</td>
+                <td><a style="color: {{ training_request.getColor }}" href="{{ path('training_request_edit', {'id': training_request.id}) }}">{{ training_request.name }}</a></td>
                 <td>{{ training_request.firstname }}</td>
                 <td>{{ training_request.mail }}</td>
                 <td>{{ training_request.phone }}</td>
                 <td>{{ training_request.dateRequest ? training_request.dateRequest|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ training_request.note }}</td>
-                <td>{{ training_request.status }}</td>
+                <td>{{ training_request.getAction.getName }}</td>
             </tr>
         {% else %}
             <tr>

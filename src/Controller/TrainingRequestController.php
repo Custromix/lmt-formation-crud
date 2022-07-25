@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ActionTrainee;
 use App\Entity\Contact;
 use App\Entity\Customer;
 use App\Entity\StandardTraining;
@@ -20,8 +21,14 @@ class TrainingRequestController extends AbstractController
     #[Route('/', name: 'training_request_index', methods: ['GET'])]
     public function index(TrainingRequestRepository $trainingRequestRepository): Response
     {
+        $allTrainingRequest = $trainingRequestRepository->findAll();
+
+        for ($i = 0; $i < count($allTrainingRequest); $i++){
+            $allTrainingRequest[$i]->setColor();
+        }
+        
         return $this->render('training_request/index.html.twig', [
-            'training_requests' => $trainingRequestRepository->findAll(),
+            'training_requests' => $allTrainingRequest,
         ]);
     }
 
@@ -32,12 +39,13 @@ class TrainingRequestController extends AbstractController
         if (!empty($_POST['trainingRequest'])) {
             $trainingRequest = new TrainingRequest();
             $trainingRequest->init($_POST['trainingRequest']);
+            $thisAction = $entityManager->getRepository(ActionTrainee::class)->find($_POST['trainingRequest']['idAction']);
+            $trainingRequest->setAction($thisAction);
 
             if (!empty($_POST['trainingRequest']['training'])) {
                 foreach ($_POST['trainingRequest']['training'] as $aTrainingForm) {
                     $training = new StandardTraining();
                     $training->setId(intval($aTrainingForm['id']));
-
                     $trainingRequest->addStandardTraining($training);
                 }
             }
@@ -49,6 +57,7 @@ class TrainingRequestController extends AbstractController
         return $this->renderForm('training_request/new.html.twig', [
             'trainings' => $entityManager->getRepository(StandardTraining::class)->findAll(),
             'customers' => $entityManager->getRepository(Customer::class)->findAll(),
+            'actionTrainee' => $entityManager->getRepository(ActionTrainee::class)->findAll(),
         ]);
     }
 
@@ -67,6 +76,8 @@ class TrainingRequestController extends AbstractController
             $trainingRequest = new TrainingRequest();
             $trainingRequest->init($_POST['trainingRequest']);
             $trainingRequest->setId($thisTrainingRequest->getId());
+            $thisAction = $entityManager->getRepository(ActionTrainee::class)->find($_POST['trainingRequest']['idAction']);
+            $trainingRequest->setAction($thisAction);
 
             if (!empty($_POST['trainingRequest']['training'])) {
                 foreach ($_POST['trainingRequest']['training'] as $aTrainingForm) {
@@ -84,6 +95,7 @@ class TrainingRequestController extends AbstractController
             'trainingRequest' => $thisTrainingRequest,
             'trainings' => $entityManager->getRepository(StandardTraining::class)->findAll(),
             'customers' => $entityManager->getRepository(Customer::class)->findAll(),
+            'actionTrainee' => $entityManager->getRepository(ActionTrainee::class)->findAll(),
         ]);
     }
 

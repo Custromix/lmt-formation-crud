@@ -80,7 +80,7 @@ class StandardTraining
         $this->id = $id;
     }
 
-    public function getNom(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }

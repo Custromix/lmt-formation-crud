@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ActionTrainee{% endblock %}
+
+{% block body %}
+    <h1>Create new ActionTrainee</h1>
+
+    {{ include('action_trainee/_form.html.twig') }}
+
+    <a href="{{ path('action_trainee_index') }}">back to list</a>
+{% endblock %}

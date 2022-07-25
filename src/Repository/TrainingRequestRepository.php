@@ -30,20 +30,22 @@ class TrainingRequestRepository extends ServiceEntityRepository
 
         $insertCustomerAndContactsQuery = "
                                     START TRANSACTION;
-                                    INSERT INTO training_request (CUSTOMER_ID, NAME, FIRSTNAME, MAIL, PHONE, DATE_REQUEST, NOTE)
-                                    VALUES (:id_customer, :name, :firstname, :mail, :phone, :date_request, :note);
+                                    INSERT INTO training_request (CUSTOMER_NAME, NAME, FIRSTNAME, MAIL, PHONE, DATE_REQUEST, NOTE, ACTION_ID, DATE_ACTION)
+                                    VALUES (:customer_name, :name, :firstname, :mail, :phone, :date_request, :note, :idAction, :actionDate);
                                     SELECT LAST_INSERT_ID() into @idTrainingRequest;
                                     " . $insertSTTR . "
                                     COMMIT;
                                     ";
         $insertCustomerAndContacts = $this->getEntityManager()->getConnection()->prepare($insertCustomerAndContactsQuery);
-        $insertCustomerAndContacts->bindValue(':id_customer', $trainingRequest->getCustomer()->getId()?:null);
+        $insertCustomerAndContacts->bindValue(':customer_name', $trainingRequest->getCustomerName());
         $insertCustomerAndContacts->bindValue(':name', $trainingRequest->getName());
         $insertCustomerAndContacts->bindValue(':firstname', $trainingRequest->getFirstname());
         $insertCustomerAndContacts->bindValue(':mail', $trainingRequest->getMail());
         $insertCustomerAndContacts->bindValue(':phone', $trainingRequest->getPhone());
         $insertCustomerAndContacts->bindValue(':date_request', $trainingRequest->getDateRequest());
         $insertCustomerAndContacts->bindValue(':note', $trainingRequest->getNote());
+        $insertCustomerAndContacts->bindValue(':idAction', $trainingRequest->getAction()->getId());
+        $insertCustomerAndContacts->bindValue(':actionDate', $trainingRequest->getActionDate());
 
         for ($i = 0; $i < count($trainingRequest->getStandardTrainings()); $i++) {
             $insertCustomerAndContacts->bindValue(":idStandardTraining$i", $trainingRequest->getStandardTrainings()[$i]->getId());
@@ -71,6 +73,8 @@ class TrainingRequestRepository extends ServiceEntityRepository
                                         PHONE = :phone, 
                                         DATE_REQUEST = :date_request, 
                                         NOTE = :note
+                                        ACTION_ID = :idAction
+                                        DATE_ACTION = :actionDate
                                     WHERE ID = :idTrainingRequestUpdate;
                                     DELETE FROM standard_training_training_request WHERE TRAINING_REQUEST_ID = :idTrainingRequestDelete;
                                     " . $insertSTTR . "
@@ -85,6 +89,8 @@ class TrainingRequestRepository extends ServiceEntityRepository
         $insertCustomerAndContacts->bindValue(':phone', $trainingRequest->getPhone());
         $insertCustomerAndContacts->bindValue(':date_request', $trainingRequest->getDateRequest());
         $insertCustomerAndContacts->bindValue(':note', $trainingRequest->getNote());
+        $insertCustomerAndContacts->bindValue(':idAction', $trainingRequest->getAction()->getId());
+        $insertCustomerAndContacts->bindValue(':actionDate', $trainingRequest->getActionDate());
         $insertCustomerAndContacts->bindValue(':idTrainingRequestDelete', $trainingRequest->getId());
 
         for ($i = 0; $i < count($trainingRequest->getStandardTrainings()); $i++) {

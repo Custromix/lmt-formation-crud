@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ActionTrainee index{% endblock %}
+
+{% block body %}
+    <h1>ActionTrainee index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for action_trainee in action_trainees %}
+            <tr>
+                <td>{{ action_trainee.id }}</td>
+                <td>{{ action_trainee.name }}</td>
+                <td>
+                    <a href="{{ path('action_trainee_show', {'id': action_trainee.id}) }}">show</a>
+                    <a href="{{ path('action_trainee_edit', {'id': action_trainee.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('action_trainee_new') }}">Create new</a>
+{% endblock %}

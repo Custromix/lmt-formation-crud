@@ -41,13 +41,7 @@
                         <div class="row justify-content-around">
                             <div class="col-5">
                                 <label>Société</label>
-                                <select class="form-control" name="trainingRequest[customer]">
-                                    <option value="{{ trainingRequest.customer.getId }}"
-                                            hidden>{{ trainingRequest.customer }}</option>
-                                    {% for customer in customers %}
-                                        <option value="{{ customer.id }}">{{ customer }}</option>
-                                    {% endfor %}
-                                </select>
+                                <input type="text" class="form-control" name="trainingRequest[customer]" placeholder="Nom de la société" value="{{ trainingRequest.getCustomerName }}">
                             </div>
                             <div class="col-5">
                                 <label>Date de formation</label>
@@ -75,11 +69,24 @@
                             </div>
                         </div>
                         <div class="row justify-content-around">
+                            <div class="col-5">
+                                <label>Action à réaliser</label>
+                                <select class="form-control" name="trainingRequest[idAction]" required>
+                                    <option value="{{ trainingRequest.getAction.getId }}" hidden>{{ trainingRequest.getAction }}</option>
+                                    {% for action in actionTrainee %}
+                                        <option value="{{ action.id }}">{{ action }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <label>Echéance</label>
+                                <input type="date" class="form-control" name="trainingRequest[actionDate]" value="{{ trainingRequest.getActionDate }}">
+                            </div>
+                        </div>
+                        <div class="row justify-content-around">
                             <div class="col-11">
                                 <label>Commentaire</label>
-                                <textarea name="trainingRequest[note]" cols="30" rows="10" class="form-control" placeholder="Placez un commentaire facultatif" required>
-                                    {{ trainingRequest.getNote }}
-                                </textarea>
+                                <textarea name="trainingRequest[note]" cols="30" rows="10" class="form-control" placeholder="Placez un commentaire facultatif" required>{{ trainingRequest.getNote }}</textarea>
                             </div>
                         </div>
                         <div class="row justify-content-center">

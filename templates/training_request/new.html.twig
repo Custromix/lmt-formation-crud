@@ -16,11 +16,11 @@
                         <div class="row justify-content-around">
                             <div class="col-5">
                                 <label>Nom</label>
-                                <input type="text" class="form-control" name="trainingRequest[name]" placeholder="Doe">
+                                <input type="text" class="form-control" name="trainingRequest[name]" placeholder="Doe" required>
                             </div>
                             <div class="col-5">
                                 <label>Prénom</label>
-                                <input type="text" class="form-control" name="trainingRequest[firstname]" placeholder="John">
+                                <input type="text" class="form-control" name="trainingRequest[firstname]" placeholder="John" required>
                             </div>
                         </div>
                         <div class="row justify-content-around">
@@ -30,28 +30,23 @@
                             </div>
                             <div class="col-5">
                                 <label>Téléphone</label>
-                                <input type="text" class="form-control" name="trainingRequest[phone]" placeholder="0612345678">
+                                <input type="text" class="form-control" name="trainingRequest[phone]" placeholder="0612345678" required>
                             </div>
                         </div>
                         <div class="row justify-content-around">
                             <div class="col-5">
                                 <label>Société</label>
-                                <select class="form-control" name="trainingRequest[customer]">
-                                    <option value="" hidden>Entreprise</option>
-                                    {% for customer in customers %}
-                                        <option value="{{ customer.id }}">{{ customer }}</option>
-                                    {% endfor %}
-                                </select>
+                                <input type="text" class="form-control" name="trainingRequest[customer]" placeholder="Nom de la société" required>
                             </div>
                             <div class="col-5">
-                                <label>Date de formation</label>
-                                <input type="date" class="form-control" name="trainingRequest[dateTraining]">
+                                <label>Date de la demande</label>
+                                <input type="date" class="form-control" name="trainingRequest[dateTraining]" required>
                             </div>
                         </div>
                         <div class="row justify-content-around" id="trainings">
                             <div class="col-5" id="training_0" onclick="deleteFincaningType(this)">
                                 <label>Les formations</label>
-                                <select class="form-control" name="trainingRequest[training][0][id]">
+                                <select class="form-control" name="trainingRequest[training][0][id]" required>
                                     <option value="" hidden>Formation</option>
                                     {% for training in trainings %}
                                         <option value="{{ training.id }}">{{ training }}</option>
@@ -63,10 +58,25 @@
                                 <a class="btn btn-info" id="btn-more-training">+</a>
                             </div>
                         </div>
+                        <div class="row justify-content-around" id="trainings">
+                            <div class="col-5">
+                                <label>Action à réaliser</label>
+                                <select class="form-control" name="trainingRequest[idAction]" required>
+                                    <option value="" hidden>Action</option>
+                                    {% for action in actionTrainee %}
+                                        <option value="{{ action.id }}">{{ action }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-5">
+                                <label>Echéance</label>
+                                <input type="date" class="form-control" name="trainingRequest[actionDate]">
+                            </div>
+                        </div>
                         <div class="row justify-content-around">
                             <div class="col-11">
                                 <label>Commentaire</label>
-                                <textarea name="trainingRequest[note]" cols="30" rows="10" class="form-control" placeholder="Placez un commentaire facultatif" required></textarea>
+                                <textarea name="trainingRequest[note]" cols="30" rows="10" class="form-control" placeholder="Placez un commentaire facultatif"></textarea>
                             </div>
                         </div>
                         <div class="row justify-content-center">

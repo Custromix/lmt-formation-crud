@@ -56,9 +56,9 @@ class TrainingRequest
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="trainingRequests")
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private $Customer;
+    private $customerName;
 
     /**
      * @ORM\ManyToMany(targetEntity=StandardTraining::class, mappedBy="TrainingRequest")
@@ -70,6 +70,19 @@ class TrainingRequest
      */
     private $customizeTrainings;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ActionTrainee::class, inversedBy="trainingRequests")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $action;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $date_action;
+
+    private $color;
+
     public function __construct()
     {
         $this->standardTrainings = new ArrayCollection();
@@ -78,16 +91,14 @@ class TrainingRequest
 
     public function init(array $trainingRequestForm)
     {
-        $customer = new Customer();
-        $customer->setId(intval($trainingRequestForm['customer']));
-
+        $this->customerName = $trainingRequestForm['customer'];
         $this->name = $trainingRequestForm['name'];
         $this->firstname = $trainingRequestForm['firstname'];
         $this->mail = $trainingRequestForm['mail'];
         $this->phone = $trainingRequestForm['phone'];
-        $this->setCustomer($customer);
         $this->setDateRequest($trainingRequestForm['dateTraining']);
         $this->note = $trainingRequestForm['note'];
+        $this->setActionDate($trainingRequestForm['actionDate']);
     }
 
     public function __toString()
@@ -194,16 +205,20 @@ class TrainingRequest
         return $this;
     }
 
-    public function getCustomer(): ?Customer
+    /**
+     * @return string
+     */
+    public function getCustomerName(): ?string
     {
-        return $this->Customer;
+        return $this->customerName;
     }
 
-    public function setCustomer(?Customer $Customer): self
+    /**
+     * @param string $customerName
+     */
+    public function setCustomerName($customerName): void
     {
-        $this->Customer = $Customer;
-
-        return $this;
+        $this->customerName = $customerName;
     }
 
     /**
@@ -258,5 +273,57 @@ class TrainingRequest
         }
 
         return $this;
+    }
+
+    public function getAction(): ?ActionTrainee
+    {
+        return $this->action;
+    }
+
+    public function setAction(?ActionTrainee $action): self
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    public function getActionDate(): ?string
+    {
+        return $this->date_action->format("Y-m-d");
+    }
+
+    public function setActionDate(string $action_date): self
+    {
+        $this->date_action = new \DateTime($action_date);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param string $color
+     */
+    public function setColor(): void
+    {
+        if (isset($this->date_action)){
+            $now = new \DateTime();
+            $dateDiff = date_diff($now, $this->date_action);
+            if ($dateDiff->days >= 20 && $dateDiff->days < 40)
+            {
+                $this->color = "#F1D548";
+
+            }elseif($dateDiff->days >= 40)
+            {
+                $this->color = "#F16748";
+            }
+        }
+
     }
 }
